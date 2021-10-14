@@ -1,0 +1,70 @@
+h1 {
+    font-size: 3em;
+    color: #606060;
+}
+
+.login_izquierda {
+    padding-top: 20px;
+}
+
+.login_derecha {
+    padding-top: 20%;
+    height: 50vh;
+}
+
+h2 {
+    text-align: left;
+    font-size: 2em;
+    font-weight: 700;
+}
+
+h3 {
+    text-align: left;
+    font-size: 1.2em;
+}
+
+label {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.version {
+    color: white;
+    text-align: center;
+}
+
+.version p{
+    font-size: 0.7em;
+}
+
+
+.modif {
+    display: inline-block;
+    margin-top: 88px;
+    width: 32em;
+    max-width: 90%;
+    margin-left: 5%;
+    padding: 1.25em;
+    border-radius: .3125em;
+    border: none;
+    background: #fff;
+    padding-bottom: 40px;
+}
+
+.modif h1 {
+    margin: 0;
+}
+
+.aji {
+    color: #8D021F;
+}
+
+@media (min-width: 768px) {
+    .login_derecha {
+        padding-top: 20%;
+        height: 100vh;
+    }
+    .modif {
+        margin-left: 0;
+    }
+}

@@ -1,0 +1,130 @@
+<div class="row fondo">
+    <div class="col-12 col-md-4 offset-md-4 todo">
+    
+        <div class="row">
+            <div class="col-12 logo">
+                <img src="./assets/images/comandas.svg" width="100%">
+            </div>
+
+            <div class="col-md-12 text-center">
+                <input type="password" class="form-control" name="password" [(ngModel)]="pass" minlength="4" required (keyup.enter)="buscarUsuario(pass)">
+            </div>
+
+            <div class="col-12">
+                <div class="row mt-3">
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('1')">
+                            <div class="card-body text-center">
+                              <h5 class="card-title">1</h5>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('2')">
+                            <div class="card-body text-center">
+                              <h5 class="card-title">2</h5>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('3')">
+                            <div class="card-body text-center">
+                              <h5 class="card-title">3</h5>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('4')">
+                            <div class="card-body text-center">
+                              <h5 class="card-title">4</h5>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('5')">
+                            <div class="card-body text-center">
+                              <h5 class="card-title">5</h5>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('6')">
+                            <div class="card-body text-center">
+                              <h5 class="card-title">6</h5>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+        
+                <div class="row mt-3">
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('7')">
+                            <div class="card-body text-center">
+                              <h5 class="card-title">7</h5>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('8')">
+                            <div class="card-body text-center">
+                              <h5 class="card-title">8</h5>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('9')">
+                            <div class="card-body text-center">
+                              <h5 class="card-title">9</h5>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+           
+                <div class="row mt-3">
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('delete')" style="background-color: #F3507D">
+                            <div class="card-body text-center">
+                              <h5 class="card-title"><i class="fas fa-long-arrow-alt-left icono" style="color:white" ></i></h5>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('0')">
+                            <div class="card-body text-center">
+                              <h5 class="card-title">0</h5>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card tecla2" (click)="tecleo('ok')" style="background-color: #3DA5D9">
+                            <div class="card-body text-center">
+                              <h5 class="card-title"><i class="fas fa-check" style="color:white"></i></h5>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--FIN BOTONERA-->
+
+        <div class="row mt-2">
+            <div class="col-12 text-center">
+                <p routerLink = "/config" class="primary pointer"><i class="fas fa-cog"></i> Ir config</p>
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+    </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="row disable-dbl-tap-zoom">
+
+    <div class="col-12 col-md-6 f_naranjo text-center login_derecha ">
+        <i (click)="info()" class="fas fa-cogs fa-10x" style="color:white;"></i>
+        <div class="col-12 version text-center">
+            <p style="margin:0">Versión node en servidor: {{params.node.version}}</p>
+            <p>Versión node en Tablet: {{version}}</p>
+        </div>
+
+    </div>
+
+    <div class="col-12 col-md-6 login_izquierda animated fadeIn">
+
+        <div class="row">
+            <div class="col-8 offset-2">
+                <h2>Configurar conexión <br>a base de datos</h2>
+                <form (ngSubmit)="guardarFormulario(f)" #f="ngForm">
+                    <label>Url:</label>
+                    <input type="text" class="form-control" name="url" [(ngModel)]="params.node.url" placeholder="url" required>
+
+                    <label>Puerto:</label>
+                    <input type="text" class="form-control" name="puerto" [(ngModel)]="params.node.puerto" placeholder="puerto" required>
+
+                    <button type="submit" class="btn btn-primary btn-block mt-2 mb-4">
+                    Conectar
+                    </button>
+                </form>
+
+                
+                <button class="btn btn-warning" routerLink="/login">Volver</button>
+
+                <!-- <div class="row text-center">
+                    <div class="col-12">
+                        <p class="pointer" (click)="probarConexion()"><i class="fas fa-wifi"></i> Probar Conexión</p>
+                    </div>
+
+                    <div class="col-12">
+                        <hr>
+                    </div>
+
+                    <div class="col-12">
+                        <h3>Configurar Entorno</h3>
+                        <select class="form-control form-control-lg select " [(ngModel)]='paramsTablet.config.entorno' (change)='selectEntorno($event.target.value)'>
+                            <option>Elige un Entorno</option>
+                            <option *ngFor="let entorno of entornos" [value]="entorno.CODIGO" > {{entorno.CODIGO | titlecase }}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <hr>
+                    </div>
+
+                    <div class="col-12">
+                        <h3>Nombre Estacion</h3>
+                        <input type="text" class="form-control" name="estacion" [(ngModel)]="paramsTablet.config.estacion">
+                        <button (click)="nombreEstacion()" class="btn btn-primary btn-block mt-2 mb-4">Guardar</button>
+                    </div>
+
+
+                    <div class="col-12">
+                        <hr>
+                    </div>
+
+                    
+                        <button class="btn btn-warning btn-block" type="button" data-toggle="collapse" data-target="#opciones" aria-expanded="false" aria-controls="collapseExample">
+                        Opciones Extra                        
+                        </button>
+
+                      <div class="collapse mt-2" id="opciones">
+                        <div class="row">
+                            <div class="col-12">
+                               <p> Al enviar comanda, volver al Salón automaticamente <i [ngClass]="paramsTablet.opciones.salirMesa ? 'text-success fas fa-toggle-on' : 'text-danger fas fa-toggle-off' " class="pointer" (click)="paramsTablet.opciones.salirMesa = !paramsTablet.opciones.recordarSalon" (click)="guardarLocalStorage()"></i> </p>
+                            </div>
+                            <hr>
+                            <div class="col-12">
+                               <p> Al enviar comanda, volver al último salón? <i [ngClass]="paramsTablet.opciones.recordarSalon ? 'text-success fas fa-toggle-on' : 'text-danger fas fa-toggle-off' " class="pointer" (click)="paramsTablet.opciones.recordarSalon = !paramsTablet.opciones.recordarSalon" (click)="guardarLocalStorage()"></i></p>
+                            </div>
+                        </div>
+                      </div>
+
+                    <div class="col-12">
+                        <p class="pointer mt-2" (click)="actualizarVersion()"><i class="fas fa-upload"></i> Actualizar Versión</p>
+                    </div>
+
+                    <div class="col-12">
+                        <a class="nav-link" routerLink="/login_derecha"><i class="fas fa-arrow-left"></i> Volver</a>
+                    </div>
+
+
+
+
+
+                </div> -->
+            </div>
+        </div>
+
+    </div> 
+
+
+
+
+
+
+
+</div>
+
+

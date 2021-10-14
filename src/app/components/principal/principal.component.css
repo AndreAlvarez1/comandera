@@ -1,0 +1,76 @@
+.header {
+    padding:20px;
+    background-color: #4479b8;
+    color:white;
+}
+
+.header h1{
+    font-size: 4em;
+    font-weight: 700;
+}
+
+.header h2{
+    font-size: 1.5em;
+}
+
+.fondo {
+    min-height: 100vh;
+    background-color: #d2dae9;
+}
+
+.card {
+    margin-bottom:20px;
+}
+
+.card-header h1{
+    color:white;
+    font-size: 2em;
+    margin-bottom:0;
+    font-weight: 700;
+}
+
+.card-header h5{
+    font-size: 0.8em;
+    color:white;
+    font-style: italic;
+    margin-bottom:10px;
+}
+
+.card-footer h4{
+    margin-bottom:0;
+    color:white;
+    font-weight: 700;
+    font-size:1.3em;
+    padding-top:5px;
+}
+
+
+.card-body{
+    max-height: 200px;
+    overflow: auto; 
+}
+
+
+.card-body h3{
+  font-size:1.2em;
+  font-weight: 700;
+  margin-bottom: 0;  
+}
+
+.card-body p{
+  font-size:0.7em;
+  margin-bottom: 0; 
+
+}
+
+hr{
+margin:0
+}
+
+
+
+
+.comanda {
+    background-color: white;
+    max-width: 200px;
+}

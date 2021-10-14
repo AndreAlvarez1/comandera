@@ -1,0 +1,44 @@
+.fondo {
+    background-image: url(src/assets/images/completos.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.todo{
+    margin-top:10%;
+}
+
+.form-control{
+    text-align: center;
+}
+
+
+.tecla {
+    height: 70px;
+    width: 70px;
+    background: #fff;
+    display: inline-block;
+    box-shadow: 0 0 3px -1px rgba(0, 0, 0, .3);
+    border-radius: 5px;
+    padding: 5px;
+    border-bottom: 1px solid #b5b5b5;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    box-sizing: border-box;
+}
+
+.tecla p {
+    font-size: 2em;
+}
+
+.tecla2{
+    cursor:pointer;
+}
+
+.tecla2 h5{
+    font-size: 1.2em;
+    /* font-weight: 700; */
+}

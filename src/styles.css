@@ -1,1 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import 'assets/scss/modules/_fonts.scss';
+* {
+    font-family: 'Titillium Web';
+}
+
+.pad20{
+    padding:20px;
+}
+
+.f_rojo{
+    background-color: #ba0b12;
+}
+
+.f_amarillo{
+    background-color: #ea8c06;
+}
+
+.f_verde{
+    background-color: #009838;
+}
+
+.f_dark{
+    background-color: #000;
+}
+
+.f_naranjo {
+    background-color: #FF7126;
+}
+
+
+.fondoModif2 {
+    background-color: rgba(0, 5, 46, 0.6);
+    position: fixed;
+    top: 0;
+    z-index: 1040;
+    height: 100vh;
+    width: 100%;
+    align-items: center;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+
+/* .disable-dbl-tap-zoom {
+    touch-action: manipulation;
+} */
+
+
+
