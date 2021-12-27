@@ -13,6 +13,56 @@
     font-size: 1.5em;
 }
 
+.seccion{
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+}
+
+.lista{
+    display: inline-flex;
+    padding-right: 5px;
+}
+.prod h3{
+    margin-top:10px;
+}
+
+.lista h2{
+    font-size: 1em;
+    font-weight: 700;
+}
+
+.checks{
+    background-image: url(src/assets/images/grey.png);
+}
+
+.checks h1{
+    font-size: 2em;
+    font-weight: 700;
+    color:white;
+}
+
+.check{
+    font-size: 1.2em;
+}
+
+
+.dispo,
+.selected {
+    padding: 0 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dispo {
+    color:white;
+}
+
+.selected {
+    color: #2CEAA3;
+}
+
+
+
+
 .fondo {
     min-height: 100vh;
     background-color: #d2dae9;
@@ -73,4 +123,21 @@ margin:0
 .comanda {
     background-color: white;
     max-width: 200px;
+}
+
+
+.card h5{
+    display:inline-flex;
+}
+
+.modaltiempos{
+    padding:20px;
+    background-color: black;
+    color: white;
+    height: auto;
+}
+
+.modaltiempos h1{
+    font-size: 2em;
+    font-weight: 700;
 }

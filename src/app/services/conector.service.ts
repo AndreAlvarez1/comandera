@@ -16,8 +16,8 @@ export class ConectorService {
   constructor(private http: HttpClient,
               private router: Router) {
 
-    if ( localStorage.getItem('paramsComanda') ) {
-      const node = JSON.parse(localStorage.getItem('paramsComanda') || '{}').node;
+    if ( localStorage.getItem('paramsComandera') ) {
+      const node = JSON.parse(localStorage.getItem('paramsComandera') || '{}').node;
       this.url = node.url;
       this.port = node.puerto;
       }
@@ -46,6 +46,13 @@ export class ConectorService {
 
   guardarDato(rutas:string, body:any) {
    return this.http.post( this.url + ':' + this.port + rutas, body );
+  }
+
+
+  sonido(sonido:any) {
+    const audio = new Audio();
+    audio.src = `./assets/sounds/${sonido}`;
+    audio.play();
   }
 
 }

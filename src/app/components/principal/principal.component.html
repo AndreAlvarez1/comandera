@@ -1,41 +1,65 @@
-<div class="row header animated slideInDown">
+<div *ngIf="!loading" class="row header animated slideInDown">
     
-    <div class="col-12 col-md-3 pt-3">
-       <h2> <img src="./assets/images/logo_blanco.svg" width="150px"> | COMANDAS </h2> 
+
+    <div class="col-12 col-md-9 col-lg-10 pt-3">
+          <h2> <img src="./assets/images/logo_blanco.svg" width="150px"> | COMANDAS </h2> 
+          <h2 class="lista"><i class="fas fa-print"></i> </h2>
+      
+
+    <div *ngFor="let p of params.impresoras" class="lista" style="margin-top:10px"> 
+          <h2  *ngIf="p.checked && p.DESCRIPCIO != 'TODAS' " >{{p.DESCRIPCIO | titlecase}} </h2>
+      </div>
+
+      <h3 (click)="modalTiempos = true" class="pointer" style="font-size: 1em;"><i class="far fa-clock"></i> Tiempos de espera </h3>
+
     </div>
+
+    <div class="col-12 col-md-3 col-lg-2 pt-1" >
+      <h1> <i class="fas fa-receipt"></i> 9</h1>
+      <button  class="btn btn-outline-light" style ="margin-right: 10px; "type="button"  data-bs-toggle="collapse" data-bs-target="#config" aria-expanded="false" aria-controls="config">
+        Config
+     </button>
+
+     <button  class="btn btn-warning" type="button"  (click)="filtrar()">
+      Filtrar
+   </button>
+    </div>
+
+
     
-    <div class="col-12 col-md-2">
-        <label>Tipo de comanda</label>
-        <select class="form-select" aria-label="Default select example">
-            <option value="0">Todas</option>
-            <option value="1">Salón</option>
-            <option value="2">Venta Directa</option>
-            <option value="3">Delivery</option>
-            <option value="4">Retiro</option>
-          </select>
-    </div>
-    <div class="col-12 col-md-2">
-        <label>Sector de Comandas</label>
-        <select class="form-select" aria-label="Default select example">
-            <option value="0">Todas</option>
-            <option value="1">Cocina Caliente</option>
-            <option value="2">Bar</option>
-          </select>
-    </div>
-    <div class="col-12 col-md-2">
-        <label>Estado Comanda</label>
-        <select class="form-select" aria-label="Default select example">
-            <option value="0">Todas</option>
-            <option value="1">Por Tomar</option>
-            <option value="2">Preparando</option>
-            <option value="3">Terminada</option>
-            <option value="4">Anulada</option>
-          </select>
-    </div>
-    <div class="col-12 col-md-3 pt-1">
-     <h1>  SALÓN | <i class="fas fa-receipt"></i> 9</h1>
-    </div>
+</div>
+
+
+
+<div class="collapse row checks pad20" id="config">
   
+  <div class="col-12 col-md-4 ">
+    <h1>Impresoras </h1>
+    <div *ngFor="let imp of params.impresoras" class="pointer check" (click)="selectImpresora(imp)">
+         <div [className]="imp.checked ? 'selected animated fadeIn ' : 'dispo animated fadeIn '">
+           <p><i [className]="imp.checked ? 'far fa-check-square animated fadeIn' : 'far fa-square animated fadeIn'"></i> {{imp.DESCRIPCIO | titlecase}}</p>
+        </div>
+     </div>
+  </div>
+  
+  <div class="col-12 col-md-4 seccion">
+    <h1>Tipo de Comanda </h1>
+    <div *ngFor="let t of params.tiposComanda" class="pointer check" (click)="selectTipo(t)">
+         <div [className]="t.checked ? 'selected animated fadeIn ' : 'dispo animated fadeIn '">
+           <p><i [className]="t.checked ? 'far fa-check-square animated fadeIn' : 'far fa-square animated fadeIn'"></i> {{t.descripcion | titlecase}}</p>
+        </div>
+     </div>
+  </div>
+  
+  <div class="col-12 col-md-4 ">
+    <h1>Estados </h1>
+    <div *ngFor="let e of params.estados" class="pointer check" (click)="selectEstado(e)">
+         <div [className]="e.checked ? 'selected animated fadeIn ' : 'dispo animated fadeIn '">
+           <p><i [className]="e.checked ? 'far fa-check-square animated fadeIn' : 'far fa-square animated fadeIn'"></i> {{e.descripcion | titlecase}}</p>
+        </div>
+     </div>
+  </div>
+
 </div>
 
 
@@ -69,74 +93,40 @@
       <div class="row">
 
         <!-- COMANDA -->
-        <div class="col-12 col-md-3">
+        <div *ngFor="let c of comandas" class="col-12 col-md-4 col-lg-3">
             <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
+                
+              <div class="card-header f_rojo" (click)="verDetalle(c)">
                     <div class="row">
 
-                        <div class="col-6">
-                            <h1>Y001 
+                        <div class="col-9">
+                            <h1>{{c.detalle[0].MESA}}
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
+                                {{c.detalle.length}}
                               </span>
                             </h1>
-                            <h5>Preparando - EA0101</h5>
+                            <h5 *ngIf="c.detalle[0].ESTADO == 1">Por Tomar</h5>
+                            <h5 *ngIf="c.detalle[0].ESTADO == 2">Preparando</h5>
+                            <h5 *ngIf="c.detalle[0].ESTADO == 3">Terminada</h5>
+                            <h5 *ngIf="c.detalle[0].ESTADO == 4">Anulada</h5>
+                            <h5>- {{c.detalle[0].NUMERO}}</h5>
                         </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
+                        <div class="col-3" >
+                            <img *ngIf="c.detalle[0].ESTADO == 1" src="./assets/images/wait.svg" width="100%">
+                            <img *ngIf="c.detalle[0].ESTADO == 2" src="./assets/images/cooking.svg" width="100%">
+                            <img *ngIf="c.detalle[0].ESTADO == 3" src="./assets/images/salon.svg" width="100%">
+                            <i *ngIf="c.detalle[0].ESTADO == 4" class="fas fa-times fa-2x" ></i>
                         </div>
                     </div>
                 </div>
 
                 <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
+                  <div *ngFor="let d of c.detalle" class="prod">
+                    <h3 *ngIf="!d.MENSAJE" >{{d.NOMBRE}}</h3>
+                    <p *ngIf="d.MENSAJE" >--> {{d.NOMBRE}}</p>
+                  </div>
+           
+                  
                 </div>
 
 
@@ -144,953 +134,24 @@
                   <div class="row">
                       <div class="col-6">
                         <h4><i class="far fa-clock"></i> 09:35</h4>
+                        <p>{{c.detalle[0].HORAREAL}}</p>
                       </div>
                       <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
+                          <button class="btn btn-primary" (click)="tomarPedido('nuevo')">Tomar Pedido</button>
                       </div>
                   </div>
                 </div>
               </div>
         </div>
         <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
 
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
+        
 
 
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
-
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
 
 
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
 
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
-
-
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
-
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
-
-
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
-
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
-
-
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
-
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
-
-
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
-
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
-
-
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
-
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
-
-
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
-
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
-
-
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
-
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
-
-
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-        <!-- COMANDA -->
-        <div class="col-12 col-md-3">
-            <div class="card shadow animated fadeIn">
-                <div class="card-header f_rojo">
-                    <div class="row">
-
-                        <div class="col-6">
-                            <h1>Y001 
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                13
-                              </span>
-                            </h1>
-                            <h5>Preparando - EA0101</h5>
-                        </div>
-                        <div class="col-3" style="border-right: 1px solid white;">
-                            <img src="./assets/images/cooking.svg" width="60px">
-                        </div>
-                        <div class="col-3">
-                            <img src="./assets/images/salon.svg" width="60px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                  <h3 >1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                  <h3>1x Lomo Salteado</h3>
-                  <p>--> Papas Fritas</p>
-                  <hr>
-                </div>
-
-
-                <div class="card-footer text-muted f_dark">
-                  <div class="row">
-                      <div class="col-6">
-                        <h4><i class="far fa-clock"></i> 09:35</h4>
-                      </div>
-                      <div class="col-6 text-right">
-                          <button class="btn btn-primary">Tomar Pedido</button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <!-- FIN COMANDA -->
-     
-
-    
+        
       </div>
 
 
@@ -1100,5 +161,38 @@
 
 
 
+<div *ngIf="modalTiempos" class="row fondoModif2 animated fadeIn" style="margin:0"> 
+  <div class="col-12 " >
 
+    <div class="row modaltiempos">
+      <div class="col-8 offset-3">
+        <h1>Tiempos de Espera</h1>
+      </div>
+      <div class="col-1">
+        <i class="fas fa-times fa-2x" (click)="modalTiempos = !modalTiempos"></i>
+      </div>
+    </div>
+    
+    <div class="row modaltiempos" style="padding: 20px 20px 40px">
+
+        <div class="col-12 col-md-6 offset-md-3">
+          <h2><i class="fas fa-exclamation-triangle text-warning"></i>Atención</h2>
+          <label>Cuando el pedido está por llevar mas tiempo de lo necesario</label>
+          <input type="number" class="form-control" name="warning" [(ngModel)]="params.config.warning" minlength="1" required (keyup)="guardarParam('abierto')">  
+        </div>
+        
+        <div class="col-12 col-md-6 offset-md-3 mt-4">
+          <h2><i class="fas fa-fire-alt text-danger animated pulse infinite"></i>Peligro</h2>
+          <label>Cuando el pedido lleva mucho tiempo sin entregarse</label>
+          <input type="number" class="form-control" name="warning" [(ngModel)]="params.config.danger" minlength="1" required (keyup)="guardarParam('abierto')">
+        </div>
+
+        <div class="col-12 col-md-6 offset-md-3 mt-4">
+      <button class="btn btn-primary" (click)="guardarParam('cerrar')">Guardar </button>
+
+      </div>
+    </div>
+      
+  </div>
+</div>
 

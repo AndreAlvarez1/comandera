@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private conex:ConectorService,
               private router: Router) { 
-                if (localStorage.getItem('paramsComanda')){
-                  this.params = JSON.parse(localStorage.getItem('paramsComanda') || '{}');
+                if (localStorage.getItem('paramsComandera')){
+                  this.params = JSON.parse(localStorage.getItem('paramsComandera') || '{}');
                   this.getUsuarios();
                   this.conex.test();
                 } else {
@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
       this.loading = true;
       this.params.user.nombre = resultado.NOMBRE;
       this.params.user.codigo = resultado.CODIGO;
-      localStorage.setItem('paramsComandas', JSON.stringify(this.params));
+      localStorage.setItem('paramsComandera', JSON.stringify(this.params));
       this.router.navigateByUrl('/principal')
 
 

@@ -20,8 +20,8 @@ export class ConfigComponent implements OnInit {
   constructor(private conex:ConectorService) { 
     this.version = versionApp.version; // valido en que versión estoy
 
-    if (localStorage.getItem('paramsComandas')){
-      this.params = JSON.parse( localStorage.getItem('paramsComandas') || '{}');
+    if (localStorage.getItem('paramsComandera')){
+      this.params = JSON.parse( localStorage.getItem('paramsComandera') || '{}');
     }
   }
 
@@ -40,7 +40,7 @@ export class ConfigComponent implements OnInit {
   }
 
   guardarLocalStorage() {
-    localStorage.setItem('paramsComanda', JSON.stringify(this.params));
+    localStorage.setItem('paramsComandera', JSON.stringify(this.params));
   }
 
   probarConexion() {
