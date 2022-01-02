@@ -27,7 +27,8 @@ export class paramsModel {
                  {codigo: 1, descripcion: 'Por Tomar',checked: true},
                  {codigo: 2, descripcion: 'Preparando',checked: false},
                  {codigo: 3, descripcion: 'Terminada',checked:false},
-                 {codigo: 4, descripcion: 'Anulada',checked: false}
+                 {codigo: 4, descripcion: 'Entregada',checked: false},
+                 {codigo: 5, descripcion: 'Anulada',checked: false}
                 ];
     config = {
                 warning: 1,

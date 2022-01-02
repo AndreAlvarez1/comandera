@@ -83,7 +83,7 @@
     font-size: 0.8em;
     color:white;
     font-style: italic;
-    margin-bottom:10px;
+    /* margin-bottom:10px; */
 }
 
 .card-footer h4{
@@ -96,7 +96,8 @@
 
 
 .card-body{
-    max-height: 200px;
+    /* max-height: 200px; */
+    height: 200px;
     overflow: auto; 
 }
 
@@ -118,6 +119,21 @@ margin:0
 }
 
 
+.prod h3{
+    display: inline;
+}
+
+.icono{
+  width:25px;
+  height: 25px;
+}
+
+.icono2{
+  width:25px;
+  height: 25px;
+  background-color: white;
+  border-radius: 10px;
+}
 
 
 .comanda {
@@ -140,4 +156,63 @@ margin:0
 .modaltiempos h1{
     font-size: 2em;
     font-weight: 700;
+}
+
+/* MODAL COMANDA */
+
+
+.headerDetalle{
+    color:white;
+}
+.headerDetalle h1{
+    font-size:2em;
+    font-weight: 700;
+    margin-bottom:0;
+
+}
+
+.headerDetalle h2{
+    font-size: 3em;
+    font-weight: 700;
+}
+
+.headerDetalle p{
+    font-size: 0.8em;
+    margin-bottom: 0;
+}
+
+
+.detalles {
+    padding: 0 0 40px 20px;
+    overflow: auto;
+    height: calc(100vh - 180px);
+    border-bottom: 4px solid #2CEAA3;
+}
+
+/* .detalle {
+    padding:20px;
+} */
+
+.detalle p{
+    border-top: 1px dotted rgba(0,0,0,0.8);
+
+    margin-top: 20px;
+    padding-top:20px;
+    margin-bottom: 0;
+    font-size: 1.2em;
+}
+
+.detalle h4{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 0.8em;
+    color:cadetblue;
+}
+
+
+.detalle h5{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 0.8em;
+    color:red;
 }

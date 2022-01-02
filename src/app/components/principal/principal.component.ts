@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { interval } from 'rxjs';
 import { paramsModel } from 'src/app/models/params.models';
 import { ConectorService } from 'src/app/services/conector.service';
 import Swal from 'sweetalert2';
@@ -16,13 +17,23 @@ export class PrincipalComponent implements OnInit {
   loadingComandas             = true;
 
   params: paramsModel         = new paramsModel();
-  modalPedido                 = false;
+  modalComanda                = false;
   modalTiempos                = false;
  
   comandasAll:any[]           = []
   comandas:any[]              = []
+  comanda:any                 = { 
+                                  id: 0,
+                                  detalle: [],
+                                  new: true,
+                                  minutos: 0
+                                }
 
   cambio                      = true;
+  ciclo                       = interval(15000);
+  tiempo:any;
+
+
 
   constructor(private conex:ConectorService,
               private router: Router) {
@@ -42,6 +53,7 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getImpresoras();
+    
   }
 
 
@@ -76,6 +88,16 @@ export class PrincipalComponent implements OnInit {
               console.log('gruposImpresion', this.params.impresoras);
               localStorage.setItem('paramsComandera', JSON.stringify(this.params));
               this.loading = false;
+
+
+              this.filtrar();
+
+
+              this.tiempo = this.ciclo.subscribe( (n) => {
+                this.filtrar();
+
+              });
+          
             })
   }
 
@@ -319,9 +341,8 @@ export class PrincipalComponent implements OnInit {
   }
 
 
-  calcularTiempos(fecha:string, hora:any){
+calcularTiempos(fecha:string, hora:any){
 
- 
  let minutos = 0;
  let endTime = new Date().toLocaleTimeString().toString();
 
@@ -389,7 +410,15 @@ return minutos
                                   console.log('ya existe ver si cambió', existe);
                                   console.log('compara con', c); 
                                 } else {
-                                  c.MENSAJE = !Number.isInteger(c.NUMEL);
+                                 
+                                  c.MENSAJE = !Number.isInteger(c.NUMEL)
+                                  
+                                  if ( c.CANTIDAD == 0){
+                                    c.MENSAJE = true;
+                                    console.log('mensajeee');
+                                  }
+
+
                                   existe.detalle.push(c);
                                 }
 
@@ -430,9 +459,11 @@ comparar(all:any){
    console.log('c',c);
     let nuevo = true;
 
+  
+
     const existe = this.comandas.find( (com:any) => com.id === c.IDIMP);
     if (existe){
-      console.log('existe', existe);
+      console.log('compara a ver si existe', existe);
       existe.minutos = this.calcularTiempos(c.FECHA, c.HORAREAL);
 
       nuevo = false;
@@ -454,14 +485,38 @@ comparar(all:any){
           const repetidoTemp = existeTemp.detalle.find( (det:any) => det.NUMEL === c.NUMEL);
           if (repetidoTemp){
             console.log('ya existe ver si cambió',)
+
+            repetidoTemp.MENSAJE = !Number.isInteger(c.NUMEL);
+                                  
+            if ( repetidoTemp.CANTIDAD === 0){
+              repetidoTemp.MENSAJE = true;
+              console.log('mensajeee');
+            }
+
+
             repetidoTemp.minutos = this.calcularTiempos(c.FECHA, c.HORAREAL);
           } else {
             c.MENSAJE = !Number.isInteger(c.NUMEL);
+                                  
+            if ( c.CANTIDAD == 0){
+              c.MENSAJE = true;
+              console.log('mensajeee');
+            }
+    
+            
             existeTemp.detalle.push(c);
           }
       } else {
         console.log('no existe en temp')
         c.MENSAJE = !Number.isInteger(c.NUMEL);
+                                  
+        if ( c.CANTIDAD == 0){
+          c.MENSAJE = true;
+          console.log('mensajeee');
+        }
+    
+
+
         const producto =  { 
                             id: c.IDIMP,
                             detalle: [c],
@@ -489,13 +544,38 @@ comparar(all:any){
 
   verDetalle(c:any){
     console.log('ver detalle', c)
-    this.modalPedido = true;
+    this.modalComanda = true;
+    this.comanda = c;
 
   }
 
 
-  tomarPedido(estado:any){
-    console.log('tomar Pedido', estado);
+
+//  =========================================================== //
+//  =========================================================== //
+//  =========================================================== //
+// =============  MANEJO DE COMANDAS Y ESTADOS ================= //
+//  =========================================================== //
+//  =========================================================== //
+//  =========================================================== //
+
+
+
+  tomarPedido(pedido:any){
+    console.log('tomar Pedido', pedido);
+    for ( let d of pedido.detalle){
+      d.ESTADO = Number(d.ESTADO) + 1;
+      d.tarea = 'UPDATE';
+
+      if (d.ESTADO > 3){
+        d.tarea = 'DELETE'
+      }
+      this.conex.guardarDato('/updatecomandera', d)
+                  .subscribe( resp => { 
+                    console.log('actualizdo', resp);
+                  })
+      }
+   this.filtrar();
   }
 
 
