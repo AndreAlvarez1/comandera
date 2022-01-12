@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
   params: paramsModel = new paramsModel();
 
 
-
   constructor(private conex:ConectorService,
               private router: Router) { 
                 if (localStorage.getItem('paramsComandera')){
@@ -85,9 +84,6 @@ export class LoginComponent implements OnInit {
   }
 
 
-
-
-
   buscarUsuario(pass:any) {
    const resultado = this.usuarios.find( user => user.CLAVE === `${pass}`);
   console.log('resultado', resultado);
@@ -104,9 +100,6 @@ export class LoginComponent implements OnInit {
 
     }
   }
-
-
- 
 
 
 // ==============================

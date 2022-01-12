@@ -107,10 +107,10 @@
 
         <!-- COMANDA -->
         <div *ngFor="let c of comandas" class="col-12 col-md-4 col-lg-3">
-            <div class="card shadow animated fadeIn">
+            <div class="card shadow animated headShake">
               <div class="card-header" [ngClass]="{'f_verde':c.minutos <= params.config.warning, 'f_amarillo': c.minutos > params.config.warning && c.minutos < params.config.danger , 'f_rojo':c.minutos >= params.config.danger}"  (click)="verDetalle(c)">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-9">
                             <h1><i class="far fa-clock"></i> {{c.minutos}}
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
                                 {{c.detalle.length}}
@@ -118,6 +118,13 @@
                             </h1>
       
                             <h5>Mesa:{{c.detalle[0].MESA}} - Comanda: {{c.detalle[0].NUMERO}}</h5>
+                        </div>
+                        <div class="col-3">
+                          <img *ngIf="c.detalle[0].ESTADO == 1" src="./assets/images/wait_w.svg" width="70%" class="animated tada infinite">
+                          <img *ngIf="c.detalle[0].ESTADO == 2" src="./assets/images/cooking_w.svg" width="100%" class="animated pulse infinite">
+                          <img *ngIf="c.detalle[0].ESTADO == 3" src="./assets/images/salon_w.svg"  width="100%" class="animated pulse infinite">
+                          <i *ngIf="c.detalle[0].ESTADO == 4" class="fas fa-thumbs-up fa-2x text-ligth"></i>
+                          <i *ngIf="c.detalle[0].ESTADO == 5" class="fas fa-times fa-2x text-ligth" ></i>
                         </div>
 
                     </div>
@@ -147,7 +154,9 @@
                         <h4><i class="far fa-clock"></i> {{c.minutos}}</h4>
                       </div> -->
                       <div class="col-12 text-right">
-                          <button class="btn btn-block w-100 btn-primary" (click)="tomarPedido(c)">Tomar Pedido</button>
+                          <button *ngIf="c.detalle[0].ESTADO == 1" class="btn btn-block w-100 btn-primary" (click)="tomarPedido(c)"> Tomar Pedido  <img src="./assets/images/cooking_w.svg" width="25px"> </button>
+                          <button *ngIf="c.detalle[0].ESTADO == 2" class="btn btn-block w-100 btn-morado" (click)="tomarPedido(c)">Terminar Preparación <img src="./assets/images/salon_w.svg" width="25px"> </button>
+                          <button *ngIf="c.detalle[0].ESTADO == 3" class="btn btn-block w-100 btn-success" (click)="tomarPedido(c)">Entregar Pedido <i class="fas fa-thumbs-up"></i></button>
                       </div>
                   </div>
                 </div>
@@ -228,11 +237,12 @@
         
         <div class="col-4 text-right">
           <p><i class="fas fa-times fa-4x pointer" (click)="modalComanda = false"></i></p>
-          <button class="btn btn-outline-light pointer" style="margin-top:10px" (click)="tomarPedido(comanda)"> Tomar Pedido </button>
+          <button *ngIf="comanda.detalle[0].ESTADO == 1" class="btn btn-outline-light pointer" style="margin-top:10px" (click)="tomarPedido(comanda)">Tomar Pedido</button>
+          <button *ngIf="comanda.detalle[0].ESTADO == 2" class="btn btn-outline-light pointer" style="margin-top:10px" (click)="tomarPedido(comanda)">Terminar Preparación</button>
+          <button *ngIf="comanda.detalle[0].ESTADO == 3" class="btn btn-outline-light pointer" style="margin-top:10px" (click)="tomarPedido(comanda)">Entregar Pedido</button>
         </div>
     </div>
         
- 
 
     <div class="row">
       <div class="col-12 detalles">

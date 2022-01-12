@@ -30,7 +30,7 @@ export class PrincipalComponent implements OnInit {
                                 }
 
   cambio                      = true;
-  ciclo                       = interval(15000);
+  ciclo                       = interval(4000);
   tiempo:any;
 
 
@@ -53,7 +53,6 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getImpresoras();
-    
   }
 
 
@@ -212,7 +211,6 @@ export class PrincipalComponent implements OnInit {
     }
 
     this.ValidarCheck('estados');
-
   }
 
 
@@ -573,9 +571,10 @@ comparar(all:any){
       this.conex.guardarDato('/updatecomandera', d)
                   .subscribe( resp => { 
                     console.log('actualizdo', resp);
+                    this.filtrar();
+
                   })
       }
-   this.filtrar();
   }
 
 

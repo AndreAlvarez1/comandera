@@ -216,3 +216,16 @@ margin:0
     font-size: 0.8em;
     color:red;
 }
+
+
+.btn-morado{
+    color: white;
+    border-color: #563D7C;
+    background-color: #563D7C;
+}
+
+.btn-cyan{
+    color: white;
+    border-color: #17A2B8;
+    background-color: #17A2B8;
+}

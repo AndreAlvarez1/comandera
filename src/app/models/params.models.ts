@@ -31,8 +31,8 @@ export class paramsModel {
                  {codigo: 5, descripcion: 'Anulada',checked: false}
                 ];
     config = {
-                warning: 1,
-                danger: 3
+                warning: 10,
+                danger: 20
             }
  
     constructor() {
