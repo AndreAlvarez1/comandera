@@ -604,6 +604,50 @@ comparar(all:any){
   }
 
 
+  preguntaBorrar(){
+    console.log('pregunta borrar');
+
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: "¿Quieres borrar todas las comandas?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si Borrar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log('confimadoooooooooooooooo', this.comandas)
+        for (let comanda of this.comandas){
+           for (let c of comanda.detalle){
+            c.tarea = 'DELETE'
+            console.log('aca c')
+            this.conex.guardarDato('/updatecomandera', c)
+                  .subscribe( resp => { 
+                    console.log('----------------------------');
+                    console.log('----------------------------');
+                    console.log('actualizdo', resp);
+                    console.log('----------------------------');
+                    console.log('----------------------------');
+                    console.log('----------------------------');
+                  })
+          }
+           }
+         
+
+        this.filtrar();
+
+        Swal.fire(
+          'Eliminadas!',
+          'Comandas borradas',
+          'success'
+        )
+      }
+    })
+
+
+  }
+
 // ==============================
 // ==============================
 // WARNINGS

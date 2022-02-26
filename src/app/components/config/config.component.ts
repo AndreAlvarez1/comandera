@@ -86,7 +86,6 @@ export class ConfigComponent implements OnInit {
 
 
 
-
   error(titulo:string, texto:string) {
     Swal.fire({
       title: 'Error en la Conexión',
