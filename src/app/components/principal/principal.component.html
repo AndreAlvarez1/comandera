@@ -127,7 +127,7 @@
                         <div class="col-3">
                           <img *ngIf="c.detalle[0].ESTADO == 1" src="./assets/images/wait_w.svg" width="70%" class="animated tada infinite">
                           <img *ngIf="c.detalle[0].ESTADO == 2" src="./assets/images/cooking_w.svg" width="100%" class="animated pulse infinite">
-                          <img *ngIf="c.detalle[0].ESTADO == 3" src="./assets/images/salon_w.svg"  width="100%" class="animated pulse infinite">
+                          <i *ngIf="c.detalle[0].ESTADO == 3" class="fas fa-concierge-bell animated pulse infinite"></i>
                           <i *ngIf="c.detalle[0].ESTADO == 4" class="fas fa-thumbs-up fa-2x text-ligth"></i>
                           <i *ngIf="c.detalle[0].ESTADO == 5" class="fas fa-times fa-2x text-ligth" ></i>
                         </div>
@@ -141,7 +141,7 @@
                       <h3  >{{d.NOMBRE}} </h3>
                       <img *ngIf="d.ESTADO == 1" src="./assets/images/wait.svg" class="icono">
                       <img *ngIf="d.ESTADO == 2" src="./assets/images/cooking.svg" class="icono">
-                      <img *ngIf="d.ESTADO == 3" src="./assets/images/salon.svg"  class="icono">
+                      <i *ngIf="d.ESTADO == 3" class="fas fa-concierge-bell"></i>
                       <i *ngIf="d.ESTADO == 4" class="fas fa-thumbs-up fa-2x text-success"></i>
                       <i *ngIf="d.ESTADO == 5" class="fas fa-times fa-2x text-danger" ></i>
                   </div>
@@ -160,7 +160,7 @@
                       </div> -->
                       <div class="col-12 text-right">
                           <button *ngIf="c.detalle[0].ESTADO == 1" class="btn btn-block w-100 btn-primary" (click)="tomarPedido(c)"> Tomar Pedido  <img src="./assets/images/cooking_w.svg" width="25px"> </button>
-                          <button *ngIf="c.detalle[0].ESTADO == 2" class="btn btn-block w-100 btn-morado" (click)="tomarPedido(c)">Terminar Preparación <img src="./assets/images/salon_w.svg" width="25px"> </button>
+                          <button *ngIf="c.detalle[0].ESTADO == 2" class="btn btn-block w-100 btn-morado" (click)="tomarPedido(c)">Anda y sale <i class="fas fa-concierge-bell"></i> </button>
                           <button *ngIf="c.detalle[0].ESTADO == 3" class="btn btn-block w-100 btn-success" (click)="tomarPedido(c)">Entregar Pedido <i class="fas fa-thumbs-up"></i></button>
                       </div>
                   </div>
