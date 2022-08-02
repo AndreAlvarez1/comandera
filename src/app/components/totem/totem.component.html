@@ -1,0 +1,263 @@
+<div *ngIf="!loading" class="row header animated slideInDown">
+    
+
+    <div class="col-12 col-md-9 col-lg-10 pt-3">
+          <h2> <img src="./assets/images/logo_blanco.svg" width="150px"> | COMANDAS </h2> 
+          <h2 class="lista"><i class="fas fa-print"></i> </h2>
+      
+
+    <div *ngFor="let p of params.impresoras" class="lista" style="margin-top:10px"> 
+          <h2  *ngIf="p.checked && p.DESCRIPCIO != 'TODAS' " >{{p.DESCRIPCIO | titlecase}} </h2>
+      </div>
+
+      <h3 (click)="modalTiempos = true" class="pointer" style="font-size: 1em;"><i class="far fa-clock"></i> Tiempos de espera </h3>
+
+    </div>
+
+    <div class="col-12 col-md-3 col-lg-2 pt-1" >
+      <h1> <i class="fas fa-receipt"></i> {{comandas.length}}</h1>
+      <button  class="btn btn-outline-light" style ="margin-right: 10px; "type="button"  data-bs-toggle="collapse" data-bs-target="#config" aria-expanded="false" aria-controls="config">
+        Config
+     </button>
+
+     <button  class="btn btn-warning" type="button"  (click)="filtrar()">
+      Filtrar
+   </button>
+     <button  class="btn btn-danger" type="button" style="margin-left:10px" (click)="preguntaBorrar()">
+      <i class="far fa-trash-alt"></i>
+   </button>
+
+   
+    </div>
+
+
+    
+</div>
+
+
+
+<div class="collapse row checks pad20" id="config">
+  
+  <div class="col-12 col-md-4 ">
+    <h1>Impresoras </h1>
+    <div *ngFor="let imp of params.impresoras" class="pointer check" (click)="selectImpresora(imp)">
+         <div [className]="imp.checked ? 'selected animated fadeIn ' : 'dispo animated fadeIn '">
+           <p><i [className]="imp.checked ? 'far fa-check-square animated fadeIn' : 'far fa-square animated fadeIn'"></i> {{imp.DESCRIPCIO | titlecase}}
+          </p>
+      
+        </div>
+     </div>
+  </div>
+  
+  <div class="col-12 col-md-4 seccion">
+    <h1>Tipo de Comanda </h1>
+    <div *ngFor="let t of params.tiposComanda" class="pointer check" (click)="selectTipo(t)">
+         <div [className]="t.checked ? 'selected animated fadeIn ' : 'dispo animated fadeIn '">
+           <p><i [className]="t.checked ? 'far fa-check-square animated fadeIn' : 'far fa-square animated fadeIn'"></i> {{t.descripcion | titlecase}}
+            </p>
+        </div>
+     </div>
+  </div>
+  
+  <div class="col-12 col-md-4 ">
+    <h1>Estados </h1>
+    <div *ngFor="let e of params.estados" class="pointer check" (click)="selectEstado(e)">
+         <div [className]="e.checked ? 'selected animated fadeIn ' : 'dispo animated fadeIn '">
+           <p><i [className]="e.checked ? 'far fa-check-square animated fadeIn' : 'far fa-square animated fadeIn'"></i> {{e.descripcion | titlecase}}
+
+          
+          
+            <img *ngIf="e.codigo == 1" src="./assets/images/wait.svg" class="icono2">
+            <img *ngIf="e.codigo == 2" src="./assets/images/cooking.svg" class="icono2">
+            <img *ngIf="e.codigo == 3" src="./assets/images/salon.svg"  class="icono2">
+            <i *ngIf="e.codigo == 4" class="fas fa-thumbs-up text-ligth"></i>
+            <i *ngIf="e.codigo == 5" class="fas fa-times text-danger" ></i>
+
+          </p>
+        </div>
+     </div>
+  </div>
+
+</div>
+
+
+<div class="row fondo pad20">
+
+        <!-- COMANDA -->
+        <div *ngFor="let c of comandas" class="col-12 col-md-4 col-lg-3">
+            <div class="card shadow animated headShake">
+
+              <div class="card-header" [ngClass]="{'f_verde':c.estado >= 3, 'f_azul': c.estado == 2 , 'f_cafe':c.estado == 1 }">
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <p>Pedido</p>
+                    <h1>{{c.ncomanda | slice:-3 }}</h1>
+                  </div>
+                  <div class="col-8 offset-2 estado">
+                    <h2 *ngIf="c.estado == 1"> <img src="./assets/images/wait.svg" width="20px" class="icono animated tada infinite"> Esperando</h2>
+                    <h2 *ngIf="c.estado == 2"  class="text-primary"> <img src="./assets/images/cooking.svg" width="20px" class="icono animated tada infinite"> Preparando</h2>
+                    <h2 *ngIf="c.estado == 3"  class="text-success"> <i class="fas fa-concierge-bell animated pulse infinite"></i> Listo</h2>
+                    <h2 *ngIf="c.estado == 4"  class="text-success"> <i class="fas fa-thumbs-up fa-2x">  </i> Entregado</h2>
+                </div>
+                </div>
+              </div>
+              <!-- <div class="card-header" [ngClass]="{'f_verde':c.minutos <= params.config.warning, 'f_amarillo': c.minutos > params.config.warning && c.minutos < params.config.danger , 'f_rojo':c.minutos >= params.config.danger}"  (click)="verDetalle(c)">
+                    <div class="row">
+                        <div class="col-9">
+                            <h1><i class="far fa-clock"></i> {{c.minutos}}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                                {{c.detalle.length}}
+                              </span>
+                            </h1>
+      
+                            <h5>Mesa:{{c.detalle[0].MESA}} - Comanda: {{c.detalle[0].NUMERO}}</h5>
+                        </div>
+                        <div class="col-3">
+                          <img *ngIf="c.detalle[0].ESTADO == 1" src="./assets/images/wait_w.svg" width="70%" class="animated tada infinite">
+                          <img *ngIf="c.detalle[0].ESTADO == 2" src="./assets/images/cooking_w.svg" width="100%" class="animated pulse infinite">
+                          <i *ngIf="c.detalle[0].ESTADO == 3" class="fas fa-concierge-bell animated pulse infinite"></i>
+                          <i *ngIf="c.detalle[0].ESTADO == 4" class="fas fa-thumbs-up fa-2x text-ligth"></i>
+                          <i *ngIf="c.detalle[0].ESTADO == 5" class="fas fa-times fa-2x text-ligth" ></i>
+                        </div>
+
+                    </div>
+                </div> -->
+
+                
+
+                <div *ngIf="tipoVista == 'cliente' "class="card-body">
+                  <div *ngFor="let d of c.detalle" class="prod">
+                    <div *ngIf="!d.MENSAJE" class="">
+                      <h3  >{{d.NOMBRE}} </h3>
+                      <img *ngIf="d.ESTADO == 1" src="./assets/images/wait.svg" class="icono">
+                      <img *ngIf="d.ESTADO == 2" src="./assets/images/cooking.svg" class="icono">
+                      <i *ngIf="d.ESTADO == 3" class="fas fa-concierge-bell"></i>
+                      <i *ngIf="d.ESTADO == 4" class="fas fa-thumbs-up fa-2x text-success"></i>
+                      <i *ngIf="d.ESTADO == 5" class="fas fa-times fa-2x text-danger" ></i>
+                  </div>
+                    
+                    <p *ngIf="d.MENSAJE" >--> {{d.NOMBRE}}</p>
+                  </div>
+           
+                  
+                </div>
+
+
+                <div class="card-footer text-muted f_dark">
+                  <div class="row">
+                      <div class="col-12 text-right">
+                          <button *ngIf="c.detalle[0].ESTADO == 1" class="btn btn-block w-100 btn-primary" (click)="tomarPedido(c)"> Tomar Pedido  <img src="./assets/images/cooking_w.svg" width="25px"> </button>
+                          <button *ngIf="c.detalle[0].ESTADO == 2" class="btn btn-block w-100 btn-morado" (click)="tomarPedido(c)">Anda y sale <i class="fas fa-concierge-bell"></i> </button>
+                          <button *ngIf="c.detalle[0].ESTADO == 3" class="btn btn-block w-100 btn-success" (click)="tomarPedido(c)">Entregar Pedido <i class="fas fa-thumbs-up"></i></button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <!-- FIN COMANDA -->
+
+        
+
+
+
+
+
+        
+
+
+
+</div>
+
+
+
+<div *ngIf="modalTiempos" class="row fondoModif2 animated fadeIn" style="margin:0"> 
+  <div class="col-12 animated slideInDown" >
+
+    <div class="row modaltiempos">
+      <div class="col-8 offset-3">
+        <h1>Tiempos de Espera</h1>
+      </div>
+      <div class="col-1">
+        <i class="fas fa-times fa-2x" (click)="modalTiempos = !modalTiempos"></i>
+      </div>
+    </div>
+    
+    <div class="row modaltiempos" style="padding: 20px 20px 40px">
+
+        <div class="col-12 col-md-6 offset-md-3">
+          <h2><i class="fas fa-exclamation-triangle text-warning"></i>Atención</h2>
+          <label>Cuando el pedido está por llevar mas tiempo de lo necesario</label>
+          <input type="number" class="form-control" name="warning" [(ngModel)]="params.config.warning" minlength="1" required (keyup)="guardarParam('abierto')">  
+        </div>
+        
+        <div class="col-12 col-md-6 offset-md-3 mt-4">
+          <h2><i class="fas fa-fire-alt text-danger animated pulse infinite"></i>Peligro</h2>
+          <label>Cuando el pedido lleva mucho tiempo sin entregarse</label>
+          <input type="number" class="form-control" name="warning" [(ngModel)]="params.config.danger" minlength="1" required (keyup)="guardarParam('abierto')">
+        </div>
+
+        <div class="col-12 col-md-6 offset-md-3 mt-4">
+      <button class="btn btn-primary" (click)="guardarParam('cerrar')">Guardar </button>
+
+      </div>
+    </div>
+      
+  </div>
+</div>
+
+<!-- ====================================== -->
+<!-- ====================================== -->
+<!-- ========== MODAL COMANDA ============= -->
+<!-- ====================================== -->
+<!-- ====================================== -->
+<!-- ====================================== -->
+
+
+<!-- <div  *ngIf="modalComanda" class="row fondoModif2 animated fadeIn" style="margin:0">
+  
+  <div class="col-12 col-md-6 f_white animated slideInLeft">
+
+    <div class="row f_verde pad20 headerDetalle">
+        <div class="col-8">
+          <h1>Detalle Comanda</h1>
+          <h2><i class="far fa-clock"></i> {{comanda.minutos}}</h2>
+          <p>Garzón: {{comanda.detalle[0].GARZON}}</p>
+          <p>Mesa:{{comanda.detalle[0].MESA}} - Comanda: {{comanda.detalle[0].NUMERO}}</p>
+        </div>
+        
+        <div class="col-4 text-right">
+          <p><i class="fas fa-times fa-4x pointer" (click)="modalComanda = false"></i></p>
+          <button *ngIf="comanda.detalle[0].ESTADO == 1" class="btn btn-outline-light pointer" style="margin-top:10px" (click)="tomarPedido(comanda)">Tomar Pedido</button>
+          <button *ngIf="comanda.detalle[0].ESTADO == 2" class="btn btn-outline-light pointer" style="margin-top:10px" (click)="tomarPedido(comanda)">Terminar Preparación</button>
+          <button *ngIf="comanda.detalle[0].ESTADO == 3" class="btn btn-outline-light pointer" style="margin-top:10px" (click)="tomarPedido(comanda)">Entregar Pedido</button>
+        </div>
+    </div>
+        
+
+    <div class="row">
+      <div class="col-12 detalles">
+
+        <div *ngFor="let det of comanda.detalle" class="col-12 detalle">
+          
+          <div *ngIf="!det.MENSAJE" class="">
+            <p>{{det.CANTIDAD}} x {{det.NOMBRE}}
+              <img *ngIf="det.ESTADO == 1" src="./assets/images/wait.svg" class="icono">
+              <img *ngIf="det.ESTADO == 2" src="./assets/images/cooking.svg" class="icono">
+              <img *ngIf="det.ESTADO == 3" src="./assets/images/salon.svg"  class="icono">
+              <i *ngIf="det.ESTADO == 4" class="fas fa-thumbs-up fa-2x text-success"></i>
+              <i *ngIf="det.ESTADO == 5" class="fas fa-times fa-2x text-danger" ></i>
+            </p>
+            <h4><i class="fas fa-print"></i> {{det.NOMGRUPOIM}}</h4>
+          </div>
+          
+          <h5 *ngIf="det.MENSAJE" > -> {{det.NOMBRE | titlecase}}</h5>
+          
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div> -->
+
+

@@ -10,13 +10,17 @@ import { AppComponent } from './app.component';
 import { ConfigComponent } from './components/config/config.component';
 import { PrincipalComponent } from './components/principal/principal.component';
 import { LoginComponent } from './components/login/login.component';
+import { NavComponent } from './shared/nav/nav.component';
+import { TotemComponent } from './components/totem/totem.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ConfigComponent,
     PrincipalComponent,
-    LoginComponent
+    LoginComponent,
+    TotemComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

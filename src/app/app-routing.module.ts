@@ -3,9 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { ConfigComponent } from './components/config/config.component';
 import { LoginComponent } from './components/login/login.component';
 import { PrincipalComponent } from './components/principal/principal.component';
+import { TotemComponent } from './components/totem/totem.component';
 
 const routes: Routes = [
   {path: 'principal', component: PrincipalComponent},
+  {path: 'totem', component: TotemComponent},
   {path: 'config', component: ConfigComponent},
   {path: 'login', component: LoginComponent},
   {path: '', pathMatch: 'full', redirectTo: 'principal'},
