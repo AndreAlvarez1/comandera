@@ -27,7 +27,7 @@ export class ConectorService {
      this.http.get(this.url + ':' + this.port + '/usuarios')
               .subscribe( (resp:any) => { 
                   if (resp['datos'].length > 0){
-                    console.log('gooood', resp['datos'])
+                    // console.log('gooood', resp['datos'])
                   } else {
                     this.router.navigateByUrl('/config');
                     Swal.fire({

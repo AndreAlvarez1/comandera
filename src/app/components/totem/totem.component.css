@@ -44,3 +44,34 @@
 .icono{
     color:red;
 }
+
+
+/* CARDBODY */
+.card-body{
+    /* max-height: 200px; */
+    height: 200px;
+    overflow: auto; 
+}
+
+
+.card-body h3{
+  font-size:1.2em;
+  font-weight: 700;
+  margin-bottom: 0;  
+}
+
+.card-body p{
+  font-size:0.7em;
+  margin-bottom: 0; 
+
+}
+
+hr{
+margin:0
+}
+
+.icono{
+    width:25px;
+    height: 25px;
+  }
+  

@@ -22,6 +22,8 @@ export class TotemComponent implements OnInit {
  
   comandasAll:any[]           = []
   comandas:any[]              = []
+  listos:any[]                = []
+  pendientes:any[]            = []
   comanda:any                 = { 
                                   id: 0,
                                   detalle: [],
@@ -56,7 +58,6 @@ export class TotemComponent implements OnInit {
 
   getImpresoras(){
 
-    console.log('this params', this.params);
 
     this.conex.traeDatos('/impresoras').subscribe( (resp:any) => { 
               for (let imp of resp['datos']){
@@ -65,7 +66,6 @@ export class TotemComponent implements OnInit {
                 
                 // si no existe reviso si el TODAS está activado para agregarla "seleccionada";
                 if (!existe){
-                  console.log('no existe', existe);
                     imp.checked = false;
                     if (this.params.impresoras[0].checked){
                       imp.checked = true;
@@ -73,13 +73,13 @@ export class TotemComponent implements OnInit {
                  this.params.impresoras.push(imp);
                
                 } else {
-                  console.log('ya existe', existe);
+                  // console.log('ya existe impreso', existe);
                 }
 
 
               }
 
-              console.log('gruposImpresion', this.params.impresoras);
+              // console.log('gruposImpresion', this.params.impresoras);
               localStorage.setItem('paramsComandera', JSON.stringify(this.params));
               this.loading = false;
 
@@ -105,7 +105,6 @@ export class TotemComponent implements OnInit {
 // ====================================== //
   
 selectTipo(value:any){
-  console.log('tipo comanda', value);
   this.cambio = true;
 
   if (value.descripcion === 'Todos' && value.checked == true){
@@ -175,7 +174,6 @@ selectImpresora(value:any){
 }
 
 selectEstado(value:any){
-  console.log('estado', value);
   this.cambio = true;
 
   if (value.descripcion === 'Todos' && value.checked == true){
@@ -237,7 +235,6 @@ selectEstado(value:any){
   return;
  }
 
- console.log('ok, traigo datos', this.params);
 
  localStorage.setItem('paramsComandera', JSON.stringify(this.params));
 
@@ -264,8 +261,6 @@ selectEstado(value:any){
   codigos.estados    = codigos.estados.substring(1)
   codigos.tipos      = codigos.tipos.substring(1)
 
-  console.log('codigos ', codigos);
-
   this.getComandas(codigos);
 }
 
@@ -284,7 +279,6 @@ ValidarCheck(tipo:string){
               }
           }
 
-          console.log('contador', contador);
           if (contador < 1){
             this.alertVacio('impresoras')
             return false;
@@ -293,7 +287,6 @@ ValidarCheck(tipo:string){
           }    
 
     case 'tiposComanda':
-          console.log('contador tipo', contador);
 
           for (let t of this.params.tiposComanda){
               if (t.checked){
@@ -354,7 +347,6 @@ minutos = t1.getMinutes()
 }
 
 if (t1.getHours() >= 1){
-console.log('han pasado', t1.getHours(), 'horas')
 minutos = minutos + (t1.getHours() * 60)
 }
 
@@ -378,44 +370,37 @@ return minutos
 
     this.conex.traeDatos(`/comandera/${codigos.impresoras}/${codigos.estados}/${codigos.tipos}`)
                 .subscribe( (resp:any )=> { 
-
-                        console.log('comander', resp['datos']);
-
-                
+                        console.log('comandas', resp['datos']);
 
                         if (this.cambio){
                             this.comandas = [];
-                            console.log('this.cambio', this.cambio, this.comandas.length);
-                            
+
+        
+
                             for (let c of resp['datos']){
-                              
+                             
                               const existe = this.comandas.find( (com:any) => com.ncomanda === c.NUMERO);
-
-
                               if (existe){
                                 
                                 existe.minutos = this.calcularTiempos(c.FECHA, c.HORAREAL);
 
-                                // console.log('existe ver si son productos diferentes', existe);    
                                 const repetido = existe.detalle.find( (det:any) => det.NUMEL === c.NUMEL);
                                 if (repetido){
                                   console.log('ya existe ver si cambió', existe);
                                   console.log('compara con', c); 
                                 } else {
                                   c.MENSAJE = !Number.isInteger(c.NUMEL)
-                                  
+                                  c.ESTADO  = Number(c.ESTADO)
                                   if ( c.CANTIDAD == 0){
                                     c.MENSAJE = true;
                                     console.log('mensajeee');
                                   }
-
-
                                   existe.detalle.push(c);
                                 }
 
                               } else {
                                 console.log('no existe')
-
+                                c.ESTADO = Number(c.ESTADO)
 
                                 c.MENSAJE = !Number.isInteger(c.NUMEL);
                                   const producto =  { 
@@ -423,14 +408,28 @@ return minutos
                                     detalle: [c],
                                     new: true,
                                     minutos: this.calcularTiempos(c.FECHA, c.HORAREAL),
-                                    estado: c.ESTADO
+                                    estado: Number(c.ESTADO),
+                                    HORAREAL: c.HORAREAL
                                   }
                                   
-                                  this.comandas.push(producto);
+                               this.comandas.push(producto);
                               }
                             }
 
                             console.log('meter sonido refresh', this.comandas);
+
+                            for (let com of this.comandas){
+                              com.estado = this.evaluarEstado(com);
+                              if (com.estado > 2){
+                                this.listos.push(com);
+                              } else {
+                                this.pendientes.push(com);
+                              }
+                            }
+
+                            console.log('pendientes', this.pendientes);
+                         
+
                             this.conex.sonido('Home.mp3')
                             this.loadingComandas = false;
                             this.cambio = false;
@@ -445,30 +444,53 @@ return minutos
   }
 
 
+  evaluarEstado(c:any){
+    let estado = 4;
+    console.log('c', c);
+   
+    for (let d of c.detalle){
+      if (d.ESTADO < estado){
+        console.log('es menor', d.ESTADO);
+        estado = d.ESTADO;
+      }
+    }
+   
+    console.log('devuelvo', estado);
+    return estado
+  }
+
+//1: Pendiente de tomar en cocina
+//2: cocinando
+//3: por Entregar
+//4: Entregado / fade
+//5: Borrado
+
+
 comparar(all:any){
   console.log('comparar');
  const temp:any [] = [];
 
  for (let c of all){
    console.log('c',c);
+   c.ESTADO = Number(c.ESTADO);
+   
+      let existe;
+
+      if (c.ESTADO > 2){
+        existe = this.listos.find( (com:any) => com.ncomanda === c.NUMERO);
+      } else {
+        existe = this.pendientes.find( (com:any) => com.ncomanda === c.NUMERO);
+      }
+   
     let nuevo = true;
 
-  
 
-    const existe = this.comandas.find( (com:any) => com.id === c.IDIMP);
+    
+    // const existe = this.comandas.find( (com:any) => com.id === c.IDIMP);
     if (existe){
       console.log('compara a ver si existe', existe);
       existe.minutos = this.calcularTiempos(c.FECHA, c.HORAREAL);
-
       nuevo = false;
-
-      // console.log('existe ver si son productos diferentes', existe);    
-      // const repetido = existe.detalle.find( (det:any) => det.NUMEL === c.NUMEL);
-      // if (repetido){
-      //   console.log('ya existe ver si cambió',)
-      // } else {
-      //   existe.detalle.push(c);
-      // }
     }  else {
       console.log('no existe....')
     }
@@ -491,6 +513,7 @@ comparar(all:any){
             repetidoTemp.minutos = this.calcularTiempos(c.FECHA, c.HORAREAL);
           } else {
             c.MENSAJE = !Number.isInteger(c.NUMEL);
+            c.ESTADO  = Number(c.ESTADO)
                                   
             if ( c.CANTIDAD == 0){
               c.MENSAJE = true;
@@ -519,12 +542,17 @@ comparar(all:any){
                           }
         console.log('pusheo', producto);
         temp.push(producto);  
+        
         if (producto.new){
           this.conex.sonido('bing.mp3')        
         }
       }
     
    
+  }
+
+  for (let c of temp){
+    console.log('tempo',c)
   }
   this.comandas = temp;
   this.comandas.sort((a, b) => (a.id < b.id ? -1 : 1));
