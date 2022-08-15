@@ -84,8 +84,7 @@ export class TotemComponent implements OnInit {
               this.loading = false;
 
 
-              this.filtrar();
-
+              this.checkTodo();
 
               // this.tiempo = this.ciclo.subscribe( (n) => {
               //   this.filtrar();
@@ -261,6 +260,9 @@ selectEstado(value:any){
   codigos.estados    = codigos.estados.substring(1)
   codigos.tipos      = codigos.tipos.substring(1)
 
+
+  console.log()
+
   this.getComandas(codigos);
 }
 
@@ -321,6 +323,24 @@ ValidarCheck(tipo:string){
 
 }
 
+checkTodo(){
+  for (let t of this.params.impresoras){
+    t.checked = true;
+  }
+
+  for (let t of this.params.tiposComanda){
+    t.checked = true; 
+  }
+
+  for (let t of this.params.estados){
+    t.checked = true; 
+  }
+
+  this.filtrar();
+}
+
+
+
 
 calcularTiempos(fecha:string, hora:any){
 
@@ -378,10 +398,11 @@ return minutos
         
 
                             for (let c of resp['datos']){
-                             
+                             console.log('voy con esta comanda', c)
+
                               const existe = this.comandas.find( (com:any) => com.ncomanda === c.NUMERO);
                               if (existe){
-                                
+                                console.log('existe', existe);
                                 existe.minutos = this.calcularTiempos(c.FECHA, c.HORAREAL);
 
                                 const repetido = existe.detalle.find( (det:any) => det.NUMEL === c.NUMEL);

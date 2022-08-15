@@ -1,3 +1,9 @@
+<div class="row bg-dark pad20">
+  <div class="col-12">
+    <h1 class="text-center text-light">Atento a tu pedido</h1>
+  </div>
+</div>
+
 <!-- <div *ngIf="!loading" class="row header animated slideInDown">
     
 
@@ -84,7 +90,7 @@ d
 <div class="row fondo pad20">
 
 
-<div class="col-12 col-md-6 listos">
+<div class="col-12 col-md-6 listos ">
   <div class="row">
 
       <!-- COMANDAS LISTAS -->
@@ -147,7 +153,7 @@ d
             </div>
 
 
-            <div class="card-footer text-muted f_dark">
+            <div *ngIf="tipoVista == 'cocina'" class="card-footer text-muted f_dark">
               <div class="row">
                   <div class="col-12 text-right">
                       <button *ngIf="c.detalle[0].ESTADO == 1" class="btn btn-block w-100 btn-primary" (click)="tomarPedido(c)"> Tomar Pedido  <img src="./assets/images/cooking_w.svg" width="25px"> </button>
@@ -161,6 +167,9 @@ d
     <!-- FIN COMANDA -->
   </div>
 </div>
+
+
+
 
 <div class="col-12 col-md-6 pendientes">
   <div class="row">
@@ -207,7 +216,7 @@ d
 
             
 
-            <div *ngIf="tipoVista == 'cliente' "class="card-body">
+            <div *ngIf="tipoVista == 'cocina' "class="card-body">
               <div *ngFor="let d of c.detalle" class="prod">
                 <div *ngIf="!d.MENSAJE" class="">
                   <h3  >{{d.NOMBRE}} </h3>
@@ -225,7 +234,7 @@ d
             </div>
 
 
-            <div class="card-footer text-muted f_dark">
+            <div *ngIf="tipoVista == 'cocina'" class="card-footer text-muted f_dark">
               <div class="row">
                   <div class="col-12 text-right">
                       <button *ngIf="c.detalle[0].ESTADO == 1" class="btn btn-block w-100 btn-primary" (click)="tomarPedido(c)"> Tomar Pedido  <img src="./assets/images/cooking_w.svg" width="25px"> </button>
