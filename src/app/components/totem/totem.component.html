@@ -74,7 +74,7 @@ d
           
           
             <img *ngIf="e.codigo == 1" src="./assets/images/wait.svg" class="icono2">
-            <img *ngIf="e.codigo == 2" src="./assets/images/cooking.svg" class="icono2">
+            <img *ngIf="e.codigo == 2" src="./assets/images/cooking2.svg" class="icono2">
             <img *ngIf="e.codigo == 3" src="./assets/images/salon.svg"  class="icono2">
             <i *ngIf="e.codigo == 4" class="fas fa-thumbs-up text-ligth"></i>
             <i *ngIf="e.codigo == 5" class="fas fa-times text-danger" ></i>
@@ -94,7 +94,7 @@ d
   <div class="row">
 
       <!-- COMANDAS LISTAS -->
-      <div *ngFor="let c of listos" class="col-12 col-md-6">
+      <div *ngFor="let c of listos" class="col-12 col-md-4">
         <div class="card shadow animated headShake">
           <div class="card-header" [ngClass]="{'f_verde':c.estado >= 3, 'f_azul': c.estado == 2 , 'f_cafe':c.estado == 1 }">
             <div class="row">
@@ -104,9 +104,9 @@ d
               </div>
               <div class="col-8 offset-2 estado">
                 <h2 *ngIf="c.estado == 1"> <img src="./assets/images/wait.svg" width="20px" class="icono animated tada infinite"> Esperando</h2>
-                <h2 *ngIf="c.estado == 2"  class="text-primary"> <img src="./assets/images/cooking.svg" width="20px" class="icono animated tada infinite"> Preparando</h2>
-                <h2 *ngIf="c.estado == 3"  class="text-success"> <i class="fas fa-concierge-bell animated pulse infinite"></i> Listo</h2>
-                <h2 *ngIf="c.estado == 4"  class="text-success"> <i class="fas fa-thumbs-up fa-2x">  </i> Entregado</h2>
+                <h2 *ngIf="c.estado == 2"  class=""> <img src="./assets/images/cooking2.svg" width="20px" class="icono animated tada infinite"> Preparando</h2>
+                <h2 *ngIf="c.estado == 3"  class=""> <i class="fas fa-concierge-bell animated pulse infinite"></i> Listo</h2>
+                <h2 *ngIf="c.estado == 4"  class=""> <i class="fas fa-thumbs-up fa-2x">  </i> Entregado</h2>
             </div>
             </div>
           </div>
@@ -139,8 +139,8 @@ d
               <div *ngFor="let d of c.detalle" class="prod">
                 <div *ngIf="!d.MENSAJE" class="">
                   <h3  >{{d.NOMBRE}} </h3>
-                  <img *ngIf="d.ESTADO == 1" src="./assets/images/wait.svg" class="icono">
-                  <img *ngIf="d.ESTADO == 2" src="./assets/images/cooking.svg" class="icono">
+                  <img *ngIf="d.ESTADO == 1" src="./assets/images/wait_w.svg" class="icono">
+                  <img *ngIf="d.ESTADO == 2" src="./assets/images/cooking2.svg" class="icono">
                   <i *ngIf="d.ESTADO == 3" class="fas fa-concierge-bell"></i>
                   <i *ngIf="d.ESTADO == 4" class="fas fa-thumbs-up fa-2x text-success"></i>
                   <i *ngIf="d.ESTADO == 5" class="fas fa-times fa-2x text-danger" ></i>
@@ -148,8 +148,6 @@ d
                 
                 <p *ngIf="d.MENSAJE" >--> {{d.NOMBRE}}</p>
               </div>
-      
-              
             </div>
 
 
@@ -175,7 +173,7 @@ d
   <div class="row">
 
       <!-- COMANDAS PENDIENTES -->
-      <div *ngFor="let c of pendientes" class="col-12 col-md-6 ">
+      <div *ngFor="let c of pendientes" class="col-12 col-md-4 ">
         <div class="card shadow animated headShake">
           <div class="card-header" [ngClass]="{'f_verde':c.estado >= 3, 'f_azul': c.estado == 2 , 'f_cafe':c.estado == 1 }">
             <div class="row">
@@ -184,10 +182,10 @@ d
                 <h1>{{c.ncomanda | slice:-3 }}</h1>
               </div>
               <div class="col-8 offset-2 estado">
-                <h2 *ngIf="c.estado == 1"> <img src="./assets/images/wait.svg" width="20px" class="icono animated tada infinite"> Esperando</h2>
-                <h2 *ngIf="c.estado == 2"  class="text-primary"> <img src="./assets/images/cooking.svg" width="20px" class="icono animated tada infinite"> Preparando</h2>
-                <h2 *ngIf="c.estado == 3"  class="text-success"> <i class="fas fa-concierge-bell animated pulse infinite"></i> Listo</h2>
-                <h2 *ngIf="c.estado == 4"  class="text-success"> <i class="fas fa-thumbs-up fa-2x">  </i> Entregado</h2>
+                <h2 *ngIf="c.estado == 1"> <img src="./assets/images/wait_w.svg" width="20px" class="icono animated tada infinite"> Esperando</h2>
+                <h2 *ngIf="c.estado == 2"  class=""> <img src="./assets/images/cooking2.svg" width="20px" class="icono animated tada infinite "> Preparando</h2>
+                <h2 *ngIf="c.estado == 3"  class=""> <i class="fas fa-concierge-bell animated pulse infinite"></i> Listo</h2>
+                <h2 *ngIf="c.estado == 4"  class=""> <i class="fas fa-thumbs-up fa-2x">  </i> Entregado</h2>
             </div>
             </div>
           </div>
@@ -220,8 +218,8 @@ d
               <div *ngFor="let d of c.detalle" class="prod">
                 <div *ngIf="!d.MENSAJE" class="">
                   <h3  >{{d.NOMBRE}} </h3>
-                  <img *ngIf="d.ESTADO == 1" src="./assets/images/wait.svg" class="icono">
-                  <img *ngIf="d.ESTADO == 2" src="./assets/images/cooking.svg" class="icono">
+                  <img *ngIf="d.ESTADO == 1" src="./assets/images/wait_w.svg" class="icono">
+                  <img *ngIf="d.ESTADO == 2" src="./assets/images/cooking2.svg" class="icono">
                   <i *ngIf="d.ESTADO == 3" class="fas fa-concierge-bell"></i>
                   <i *ngIf="d.ESTADO == 4" class="fas fa-thumbs-up fa-2x text-success"></i>
                   <i *ngIf="d.ESTADO == 5" class="fas fa-times fa-2x text-danger" ></i>
@@ -339,7 +337,7 @@ d
           <div *ngIf="!det.MENSAJE" class="">
             <p>{{det.CANTIDAD}} x {{det.NOMBRE}}
               <img *ngIf="det.ESTADO == 1" src="./assets/images/wait.svg" class="icono">
-              <img *ngIf="det.ESTADO == 2" src="./assets/images/cooking.svg" class="icono">
+              <img *ngIf="det.ESTADO == 2" src="./assets/images/cooking2.svg" class="icono">
               <img *ngIf="det.ESTADO == 3" src="./assets/images/salon.svg"  class="icono">
               <i *ngIf="det.ESTADO == 4" class="fas fa-thumbs-up fa-2x text-success"></i>
               <i *ngIf="det.ESTADO == 5" class="fas fa-times fa-2x text-danger" ></i>

@@ -35,6 +35,8 @@ export class TotemComponent implements OnInit {
   ciclo                       = interval(8000);
   tiempo:any;
   tipoVista                   = 'cliente';
+  primeraCarga                = true;
+
   
   constructor(private conex:ConectorService,
               private router: Router) { 
@@ -261,7 +263,6 @@ selectEstado(value:any){
   codigos.tipos      = codigos.tipos.substring(1)
 
 
-  console.log()
 
   this.getComandas(codigos);
 }
@@ -337,6 +338,11 @@ checkTodo(){
   }
 
   this.filtrar();
+  
+  this.tiempo = this.ciclo.subscribe( (n) => {
+                this.filtrar();
+  });
+  
 }
 
 
@@ -391,12 +397,14 @@ return minutos
     this.conex.traeDatos(`/comandera/${codigos.impresoras}/${codigos.estados}/${codigos.tipos}`)
                 .subscribe( (resp:any )=> { 
                         console.log('comandas', resp['datos']);
+                        console.log('cambio', this,this.cambio);
 
-                        if (this.cambio){
-                            this.comandas = [];
+                        // if (this.cambio){
+                            this.comandas   = [];
+                            this.listos     = [];
+                            this.pendientes = [];
 
         
-
                             for (let c of resp['datos']){
                              console.log('voy con esta comanda', c)
 
@@ -456,9 +464,9 @@ return minutos
                             this.cambio = false;
                             return
 
-                          } else if (this.cambio == false){
-                            this.comparar(resp['datos']);
-                          }
+                          // } else if (this.cambio == false){
+                          //   this.comparar(resp['datos']);
+                          // }
 
                       })
 
@@ -492,7 +500,7 @@ comparar(all:any){
  const temp:any [] = [];
 
  for (let c of all){
-   console.log('c',c);
+   console.log('c acá',c);
    c.ESTADO = Number(c.ESTADO);
    
       let existe;
@@ -503,6 +511,7 @@ comparar(all:any){
         existe = this.pendientes.find( (com:any) => com.ncomanda === c.NUMERO);
       }
    
+      console.log('existe', existe);
     let nuevo = true;
 
 
@@ -617,7 +626,6 @@ comparar(all:any){
                   .subscribe( resp => { 
                     console.log('actualizdo', resp);
                     this.filtrar();
-
                   })
       }
   }
