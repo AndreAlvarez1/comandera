@@ -124,10 +124,10 @@
       
                             <h5>Mesa:{{c.detalle[0].MESA}} - Comanda: {{c.detalle[0].NUMERO}}</h5>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3 iconoHead">
                           <img *ngIf="c.detalle[0].ESTADO == 1" src="./assets/images/wait_w.svg" width="70%" class="animated tada infinite">
                           <img *ngIf="c.detalle[0].ESTADO == 2" src="./assets/images/cooking_w.svg" width="100%" class="animated pulse infinite">
-                          <i *ngIf="c.detalle[0].ESTADO == 3" class="fas fa-concierge-bell animated pulse infinite"></i>
+                          <i *ngIf="c.detalle[0].ESTADO == 3" class="fas fa-concierge-bell animated pulse infinite fa-2x "></i>
                           <i *ngIf="c.detalle[0].ESTADO == 4" class="fas fa-thumbs-up fa-2x text-ligth"></i>
                           <i *ngIf="c.detalle[0].ESTADO == 5" class="fas fa-times fa-2x text-ligth" ></i>
                         </div>

@@ -30,7 +30,7 @@ export class PrincipalComponent implements OnInit {
                                 }
 
   cambio                      = true;
-  ciclo                       = interval(4000);
+  ciclo                       = interval(10000);
   tiempo:any;
 
 
