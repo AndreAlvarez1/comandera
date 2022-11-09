@@ -404,7 +404,9 @@ return minutos
                             this.listos     = [];
                             this.pendientes = [];
 
-        
+                            let comandasTotem = resp['datos'].filter(  (r:any) => r.RAZON == 'Totem');
+                            console.log('las comandas que vienen del totem son', comandasTotem);
+
                             for (let c of resp['datos']){
                              console.log('voy con esta comanda', c)
 
@@ -428,7 +430,7 @@ return minutos
                                 }
 
                               } else {
-                                console.log('no existe')
+                                console.log('no existe', c)
                                 c.ESTADO = Number(c.ESTADO)
 
                                 c.MENSAJE = !Number.isInteger(c.NUMEL);
