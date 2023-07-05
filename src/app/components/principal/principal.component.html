@@ -11,9 +11,8 @@
       </div>
 
       <h3 (click)="modalTiempos = true" class="pointer" style="font-size: 1em;"><i class="far fa-clock"></i> Tiempos de espera </h3>
-
+      <h3 style="font-size: 1em;" (click)="autoAceptar()"><i [ngClass]="params.config.autoAceptar ? 'fas fa-check text-light' : 'fas fa-times text-danger' "></i> Auto aceptar Comandas </h3>
     </div>
-
     <div class="col-12 col-md-3 col-lg-2 pt-1" >
       <h1> <i class="fas fa-receipt"></i> {{comandas.length}}</h1>
       <button  class="btn btn-outline-light" style ="margin-right: 10px; "type="button"  data-bs-toggle="collapse" data-bs-target="#config" aria-expanded="false" aria-controls="config">
@@ -122,7 +121,7 @@
                               </span>
                             </h1>
       
-                            <h5>Mesa:{{c.detalle[0].MESA}} - Comanda: {{c.detalle[0].NUMERO}}</h5>
+                            <h5>Mesa: <span class="mesa"> {{c.detalle[0].MESA}} </span> - Comanda: {{c.detalle[0].NUMERO | slice:-3 }} </h5>
                         </div>
                         <div class="col-3 iconoHead">
                           <img *ngIf="c.detalle[0].ESTADO == 1" src="./assets/images/wait_w.svg" width="70%" class="animated tada infinite">
@@ -160,7 +159,7 @@
                       </div> -->
                       <div class="col-12 text-right">
                           <button *ngIf="c.detalle[0].ESTADO == 1" class="btn btn-block w-100 btn-primary" (click)="tomarPedido(c)"> Tomar Pedido  <img src="./assets/images/cooking_w.svg" width="25px"> </button>
-                          <button *ngIf="c.detalle[0].ESTADO == 2" class="btn btn-block w-100 btn-morado" (click)="tomarPedido(c)">Anda y sale <i class="fas fa-concierge-bell"></i> </button>
+                          <button *ngIf="c.detalle[0].ESTADO == 2" class="btn btn-block w-100 btn-morado" (click)="tomarPedido(c)"> Sale <i class="fas fa-concierge-bell"></i> </button>
                           <button *ngIf="c.detalle[0].ESTADO == 3" class="btn btn-block w-100 btn-success" (click)="tomarPedido(c)">Entregar Pedido <i class="fas fa-thumbs-up"></i></button>
                       </div>
                   </div>
@@ -237,7 +236,7 @@
           <h1>Detalle Comanda</h1>
           <h2><i class="far fa-clock"></i> {{comanda.minutos}}</h2>
           <p>Garzón: {{comanda.detalle[0].GARZON}}</p>
-          <p>Mesa:{{comanda.detalle[0].MESA}} - Comanda: {{comanda.detalle[0].NUMERO}}</p>
+          <p>Mesa: {{comanda.detalle[0].MESA}} - Comanda: {{comanda.detalle[0].NUMERO}}</p>
         </div>
         
         <div class="col-4 text-right">

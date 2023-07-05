@@ -70,6 +70,14 @@
 
 .card {
     margin-bottom:20px;
+    border-top-right-radius:20px ;
+    border-top-left-radius:20px 
+}
+
+
+.card-header{
+    border-top-right-radius:20px ;
+    border-top-left-radius:20px 
 }
 
 .card-header h1{
@@ -163,6 +171,16 @@ margin:0
     font-weight: 700;
 }
 
+
+.mesa{
+    font-weight: 700;
+    font-size: 1em;
+}
+
+.card-header h5{
+    margin-bottom:0;
+    font-size: 1.1em;
+}
 /* MODAL COMANDA */
 
 

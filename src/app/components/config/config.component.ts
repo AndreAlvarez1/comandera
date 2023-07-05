@@ -76,6 +76,19 @@ export class ConfigComponent implements OnInit {
   }
 
 
+
+  copiarUrl(){
+    const url2 = location.origin;
+    console.log('url', url2)
+    const splitString = url2.split(':');
+    console.log('splitString', splitString);
+    const urlFinal = splitString[0] + ':' + splitString[1]
+    console.log('final', urlFinal);
+    this.params.node.url = urlFinal;
+    this.guardarLocalStorage();
+    
+  }
+
 // ==============================================================
 // ==============================================================
 // ==============================================================

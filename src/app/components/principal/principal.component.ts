@@ -30,6 +30,7 @@ export class PrincipalComponent implements OnInit {
                                 }
 
   cambio                      = true;
+  // ciclo                       = interval(10000);
   ciclo                       = interval(10000);
   tiempo:any;
 
@@ -56,6 +57,11 @@ export class PrincipalComponent implements OnInit {
   }
 
 
+  autoAceptar(){
+    this.params.config.autoAceptar = !this.params.config.autoAceptar;
+    this.guardarParam('cerrar');
+  }
+
   getImpresoras(){
 
     console.log('this params', this.params);
@@ -63,14 +69,14 @@ export class PrincipalComponent implements OnInit {
     this.conex.traeDatos('/impresoras').subscribe( (resp:any) => { 
               for (let imp of resp['datos']){
                 
-                console.log('imp', imp);
+                // console.log('imp', imp);
 
                 // reviso si la impresora ya existe en los params.
                 let existe = this.params.impresoras.find( (p:any) =>  p.CODIGO ==  imp.CODIGO );
                 
                 // si no existe reviso si el TODAS está activado para agregarla "seleccionada";
                 if (!existe){
-                  console.log('no existe', existe);
+                  // console.log('no existe', existe);
                     imp.checked = false;
                     if (this.params.impresoras[0].checked){
                       imp.checked = true;
@@ -78,7 +84,7 @@ export class PrincipalComponent implements OnInit {
                  this.params.impresoras.push(imp);
                
                 } else {
-                  console.log('ya existe', existe);
+                  // console.log('ya existe', existe);
                 }
 
 
@@ -217,9 +223,9 @@ export class PrincipalComponent implements OnInit {
 
 
    filtrar(){
-   const impresoras =  this.ValidarCheck('impresoras');
-   const tipoComanda =  this.ValidarCheck('tiposComanda');
-   const estados =  this.ValidarCheck('estados');
+   const impresoras     =  this.ValidarCheck('impresoras');
+   const tipoComanda    =  this.ValidarCheck('tiposComanda');
+   const estados        =  this.ValidarCheck('estados');
 
    const codigos = {
                     impresoras: '',
@@ -364,7 +370,7 @@ if (minutos < t1.getMinutes()){
 }
 
 if (t1.getHours() >= 1){
-  console.log('han pasado', t1.getHours(), 'horas')
+  // console.log('han pasado', t1.getHours(), 'horas')
   minutos = minutos + (t1.getHours() * 60)
 }
 
@@ -388,6 +394,7 @@ return minutos
     this.conex.traeDatos(`/comandera/${codigos.impresoras}/${codigos.estados}/${codigos.tipos}`)
                 .subscribe( (resp:any )=> { 
 
+                  console.log('cambio', this.cambio);
                         console.log('comander', resp['datos']);
 
 
@@ -398,47 +405,78 @@ return minutos
                             for (let c of resp['datos']){
                               
                               const existe = this.comandas.find( (com:any) => com.id === c.IDIMP);
+                              
                               if (existe){
-                                
                                 existe.minutos = this.calcularTiempos(c.FECHA, c.HORAREAL);
 
                                 // console.log('existe ver si son productos diferentes', existe);    
                                 const repetido = existe.detalle.find( (det:any) => det.NUMEL === c.NUMEL);
                                 if (repetido){
-                                  console.log('ya existe ver si cambió', existe);
-                                  console.log('compara con', c); 
+                                  // console.log('ya existe ver si cambió', existe);
+                                  // console.log('compara con', c); 
                                 } else {
                                  
                                   c.MENSAJE = !Number.isInteger(c.NUMEL)
-                                  
                                   if ( c.CANTIDAD == 0){
                                     c.MENSAJE = true;
-                                    console.log('mensajeee');
+                                    // console.log('mensajeee');
                                   }
-
-
                                   existe.detalle.push(c);
                                 }
 
                               } else {
-                                console.log('no existe')
-                                c.MENSAJE = !Number.isInteger(c.NUMEL);
+                                const mismaComanda = this.comandas.find( c2 => c2.comanda == c.NUMERO);
+                                if (mismaComanda){
+                                  if (this.compararTiempos(mismaComanda.ingreso, c.HORAREAL )){
+                                    // console.log('menos de 10 segundos')
+
+                                    c.MENSAJE = !Number.isInteger(c.NUMEL)
+                                    if ( c.CANTIDAD == 0){
+                                      c.MENSAJE = true;
+                                      // console.log('mensajeee');
+                                    }
+                                    mismaComanda.detalle.push(c);
+
+                                  } else{
+                                    // console.log('mas de 10 segundos')
+                                    c.MENSAJE = !Number.isInteger(c.NUMEL);
+                                    const producto =  { 
+                                      id: c.IDIMP,
+                                      detalle: [c],
+                                      new: true,
+                                      minutos: this.calcularTiempos(c.FECHA, c.HORAREAL),
+                                      comanda: c.NUMERO,
+                                      ingreso: c.HORAREAL
+                                    }
+                                    this.comandas.push(producto);
+                                  }
+                                } else {
+                                  // console.log('NO LA ENCONTRÉ');
+                                  c.MENSAJE = !Number.isInteger(c.NUMEL);
                                   const producto =  { 
                                     id: c.IDIMP,
                                     detalle: [c],
                                     new: true,
-                                    minutos: this.calcularTiempos(c.FECHA, c.HORAREAL)
+                                    minutos: this.calcularTiempos(c.FECHA, c.HORAREAL),
+                                    comanda: c.NUMERO,
+                                    ingreso: c.HORAREAL
                                   }
-                                  
                                   this.comandas.push(producto);
+                                 }
+
                               }
                             }
 
-                            console.log('meter sonido refresh', this.comandas);
-                            this.conex.sonido('Home.mp3')
-                            this.loadingComandas = false;
-                            this.cambio = false;
-                            return
+                            if(this.params.config.autoAceptar){
+                              this.recorrerYaceptar();
+                            } else {
+                              console.log('meter sonido refresh', this.comandas);
+                              this.conex.sonido('Home.mp3')
+                              this.loadingComandas = false;
+                              this.cambio          = false;
+                              return
+                            }
+
 
                           } else if (this.cambio == false){
                             this.comparar(resp['datos']);
@@ -454,25 +492,14 @@ comparar(all:any){
  const temp:any [] = [];
 
  for (let c of all){
-   console.log('c',c);
     let nuevo = true;
-
-  
 
     const existe = this.comandas.find( (com:any) => com.id === c.IDIMP);
     if (existe){
-      console.log('compara a ver si existe', existe);
+      // console.log('compara a ver si existe', existe);
       existe.minutos = this.calcularTiempos(c.FECHA, c.HORAREAL);
-
       nuevo = false;
 
-      // console.log('existe ver si son productos diferentes', existe);    
-      // const repetido = existe.detalle.find( (det:any) => det.NUMEL === c.NUMEL);
-      // if (repetido){
-      //   console.log('ya existe ver si cambió',)
-      // } else {
-      //   existe.detalle.push(c);
-      // }
     }  else {
       console.log('no existe....')
     }
@@ -488,9 +515,8 @@ comparar(all:any){
                                   
             if ( repetidoTemp.CANTIDAD === 0){
               repetidoTemp.MENSAJE = true;
-              console.log('mensajeee');
+              // console.log('mensajeee');
             }
-
 
             repetidoTemp.minutos = this.calcularTiempos(c.FECHA, c.HORAREAL);
           } else {
@@ -498,46 +524,104 @@ comparar(all:any){
                                   
             if ( c.CANTIDAD == 0){
               c.MENSAJE = true;
-              console.log('mensajeee');
+              // console.log('mensajeee');
             }
     
             
             existeTemp.detalle.push(c);
           }
       } else {
-        console.log('no existe en temp')
-        c.MENSAJE = !Number.isInteger(c.NUMEL);
-                                  
-        if ( c.CANTIDAD == 0){
-          c.MENSAJE = true;
-          console.log('mensajeee');
-        }
-    
+        
+        //BUSCO SI TENGO QUE CONSOLIDAR
+        const mismaComanda = temp.find( c2 => c2.comanda == c.NUMERO);
+        if (mismaComanda){
+          if (this.compararTiempos(mismaComanda.ingreso, c.HORAREAL )){
+            // console.log('menos de 10 segundos')
+            c.MENSAJE = !Number.isInteger(c.NUMEL)
+            if ( c.CANTIDAD == 0){
+              c.MENSAJE = true;
+              // console.log('mensajeee');
+            }
+            mismaComanda.detalle.push(c);
+          } else{
+            const prod = this.agregarNuevo(c, nuevo);
+            temp.push(prod);  
+            if (prod.new){
+              this.conex.sonido('bing.mp3')        
+            }
+          }
 
-
-        const producto =  { 
-                            id: c.IDIMP,
-                            detalle: [c],
-                            new: nuevo,
-                            minutos: this.calcularTiempos(c.FECHA, c.HORAREAL)
-                          }
-        console.log('pusheo', producto);
-        temp.push(producto);  
-        if (producto.new){
-          this.conex.sonido('bing.mp3')        
+        } else {
+          const prod = this.agregarNuevo(c, nuevo);
+          temp.push(prod);  
+          if (prod.new){
+            this.conex.sonido('bing.mp3')        
+          }
         }
+
+       
       }
     
    
   }
+
   this.comandas = temp;
   this.comandas.sort((a, b) => (a.id < b.id ? -1 : 1));
  
-  console.log('this.comandas actualizado', this.comandas);
 
-  this.cambio = false;
+  if(this.params.config.autoAceptar){
+    this.recorrerYaceptar();
+  } else {
+    console.log('meter sonido refresh', this.comandas);
+    this.loadingComandas = false;
+    this.cambio          = false;
+    return
+  }
+
+
+
+}
+
+
+
+
+recorrerYaceptar(){
+  for (let c of this.comandas){
+    if (c.detalle[0].ESTADO == 1){
+      this.tomarPedido(c);
+    }
+  }
+
   this.loadingComandas = false;
- 
+  this.cambio          = false;
+}
+
+
+
+
+
+agregarNuevo(c:any, nuevo:any){
+  // console.log('no existe en temp')
+  c.MENSAJE = !Number.isInteger(c.NUMEL);
+                            
+  if ( c.CANTIDAD == 0){
+    c.MENSAJE = true;
+    // console.log('mensajeee');
+  }
+
+  const producto =  { 
+                      id: c.IDIMP,
+                      detalle: [c],
+                      new: nuevo,
+                      minutos: this.calcularTiempos(c.FECHA, c.HORAREAL),
+                      comanda: c.NUMERO,
+                      ingreso: c.HORAREAL
+                    }
+
+                    
+  // console.log('pusheo', producto);
+  return producto;
+  
 }
 
   verDetalle(c:any){
@@ -547,6 +631,14 @@ comparar(all:any){
 
   }
 
+
+  compararTiempos(tiempo1: string, tiempo2: string): boolean {
+    const t1 = new Date(`2000-01-01T${tiempo1}`);
+    const t2 = new Date(`2000-01-01T${tiempo2}`);
+    const diferenciaEnMilisegundos = Math.abs(t2.getTime() - t1.getTime());
+    const diferenciaEnSegundos = diferenciaEnMilisegundos / 1000;
+    return diferenciaEnSegundos <= 10;
+  }
 
 
 //  =========================================================== //

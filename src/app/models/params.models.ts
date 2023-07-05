@@ -32,8 +32,10 @@ export class paramsModel {
                 ];
     config = {
                 warning: 10,
-                danger: 20
-            }
+                danger: 20,
+                autoAceptar: false
+    }
+            
  
     constructor() {
 

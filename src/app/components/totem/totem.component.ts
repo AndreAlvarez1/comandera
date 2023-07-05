@@ -461,7 +461,7 @@ return minutos
                             console.log('pendientes', this.pendientes);
                          
 
-                            this.conex.sonido('Home.mp3')
+                            // this.conex.sonido('Home.mp3')
                             this.loadingComandas = false;
                             this.cambio = false;
                             return
