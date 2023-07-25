@@ -14,7 +14,7 @@ export class paramsModel {
     tiposComanda = [
                         {codigo: 0, descripcion: 'Todos', checked:  true},
                         {codigo: 1, descripcion: 'Salon', checked: true},
-                        {codigo: 2, descripcion: 'VTARAPIDA',checked: true},
+                        {codigo: 2, descripcion: 'VENTA DIRECTA',checked: true},
                         {codigo: 3, descripcion: 'Despacho',checked: true}, 
                         {codigo: 4, descripcion: 'Retiro',checked: true},
                         {codigo: 5, descripcion: 'Local',checked: true}
