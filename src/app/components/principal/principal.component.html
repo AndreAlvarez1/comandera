@@ -1,7 +1,7 @@
 <div *ngIf="!loading" class="row header animated slideInDown">
     
 
-    <div class="col-12 col-md-9 col-lg-10 pt-3">
+    <div class="col-12 col-md-9 col-lg-9 pt-3">
           <h2> <img src="./assets/images/logo_blanco.svg" width="150px"> | COMANDAS </h2> 
           <h2 class="lista"><i class="fas fa-print"></i> </h2>
       
@@ -13,11 +13,19 @@
       <h3 (click)="modalTiempos = true" class="pointer" style="font-size: 1em;"><i class="far fa-clock"></i> Tiempos de espera </h3>
       <h3 style="font-size: 1em;" (click)="autoAceptar()"><i [ngClass]="params.config.autoAceptar ? 'fas fa-check text-light' : 'fas fa-times text-danger' "></i> Auto aceptar Comandas </h3>
     </div>
-    <div class="col-12 col-md-3 col-lg-2 pt-1" >
+
+
+
+    <div class="col-12 col-md-3 col-lg-3 pt-1" >
+      
       <h1> <i class="fas fa-receipt"></i> {{comandas.length}}</h1>
       <button  class="btn btn-outline-light" style ="margin-right: 10px; "type="button"  data-bs-toggle="collapse" data-bs-target="#config" aria-expanded="false" aria-controls="config">
         Config
      </button>
+   
+     <button class="btn btn-success" (click)="toggleFullScreen() " style="margin-right:10px">  <i class="fas fa-expand"></i> </button>
+
+
 
      <button  class="btn btn-warning" type="button"  (click)="filtrar()">
       Filtrar
@@ -137,7 +145,7 @@
                 <div class="card-body">
                   <div *ngFor="let d of c.detalle" class="prod">
                     <div *ngIf="!d.MENSAJE" class="">
-                      <h3  >{{d.NOMBRE}} </h3>
+                      <h3 >{{d.CANTIDAD}} x {{d.NOMBRE}} </h3>
                       <img *ngIf="d.ESTADO == 1" src="./assets/images/wait.svg" class="icono">
                       <img *ngIf="d.ESTADO == 2" src="./assets/images/cooking.svg" class="icono">
                       <i *ngIf="d.ESTADO == 3" class="fas fa-concierge-bell"></i>
@@ -145,7 +153,7 @@
                       <i *ngIf="d.ESTADO == 5" class="fas fa-times fa-2x text-danger" ></i>
                   </div>
                     
-                    <p *ngIf="d.MENSAJE" >--> {{d.NOMBRE}}</p>
+                    <p *ngIf="d.MENSAJE" > -> {{d.NOMBRE}}</p>
                   </div>
            
                   

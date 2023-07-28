@@ -740,6 +740,28 @@ agregarNuevo(c:any, nuevo:any){
 
   }
 
+
+
+    // Función para cambiar el modo de pantalla completa
+    toggleFullScreen() {
+      if (document.fullscreenElement) {
+        // Si ya está en pantalla completa, sal de ella
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      } else {
+        // Si no está en pantalla completa, entra en pantalla completa
+        const element = document.documentElement;
+        if (element.requestFullscreen) {
+          element.requestFullscreen();
+        }
+      }
+    }
+  
+
+    
+    
+
 // ==============================
 // ==============================
 // WARNINGS
