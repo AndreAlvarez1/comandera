@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { paramsModel } from 'src/app/models/params.models';
@@ -37,9 +37,12 @@ export class TotemComponent implements OnInit {
   tipoVista                   = 'cliente';
   primeraCarga                = true;
 
+
+
   
   constructor(private conex:ConectorService,
-              private router: Router) { 
+              private router: Router,
+              private elementRef: ElementRef) { 
 
       if (localStorage.getItem('paramsComandera')){
         this.params = JSON.parse(localStorage.getItem('paramsComandera') || '{}');
@@ -211,9 +214,9 @@ selectEstado(value:any){
 
 
  filtrar(){
- const impresoras =  this.ValidarCheck('impresoras');
- const tipoComanda =  this.ValidarCheck('tiposComanda');
- const estados =  this.ValidarCheck('estados');
+ const impresoras   =  this.ValidarCheck('impresoras');
+ const tipoComanda  =  this.ValidarCheck('tiposComanda');
+ const estados      =  this.ValidarCheck('estados');
 
  const codigos = {
                   impresoras: '',
@@ -702,6 +705,26 @@ comparar(all:any){
 
 
   }
+
+
+
+
+fullscreen() {
+  const elem = this.elementRef.nativeElement;
+    
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) {
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
+  }
+}
+
+
+
 
 // ==============================
 // ==============================

@@ -1,51 +1,30 @@
 <div class="row bg-dark pad20">
-  <div class="col-12">
+  <div class="col-10">
     <h1 class="text-center text-light">Atento a tu pedido</h1>
+  </div>
+  <div class="col-2">
+    <div class="row">
+      <div class="col text-end">
+        <i class="fas fa-cog fa-2x text-light"  data-bs-toggle="collapse" data-bs-target="#config" aria-expanded="false" aria-controls="config"></i>
+      </div>
+      <div class="col">
+        <p class="text-light"><i (click)="fullscreen()" class="pointer expandir fas fas fa-expand fa-2x"></i></p>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- <div *ngIf="!loading" class="row header animated slideInDown">
-    
 
-    <div class="col-12 col-md-9 col-lg-10 pt-3">
-          <h2> <img src="./assets/images/logo_blanco.svg" width="150px"> | COMANDAS </h2> 
-          <h2 class="lista"><i class="fas fa-print"></i> </h2>
-      
-
-    <div *ngFor="let p of params.impresoras" class="lista" style="margin-top:10px"> 
-          <h2  *ngIf="p.checked && p.DESCRIPCIO != 'TODAS' " >{{p.DESCRIPCIO | titlecase}} </h2>
-      </div>
-
-      <h3 (click)="modalTiempos = true" class="pointer" style="font-size: 1em;"><i class="far fa-clock"></i> Tiempos de espera </h3>
-
-    </div>
-d
-    <div class="col-12 col-md-3 col-lg-2 pt-1" >
-      <h1> <i class="fas fa-receipt"></i> {{comandas.length}}</h1>
-      <button  class="btn btn-outline-light" style ="margin-right: 10px; "type="button"  data-bs-toggle="collapse" data-bs-target="#config" aria-expanded="false" aria-controls="config">
-        Config
-     </button>
-
-     <button  class="btn btn-warning" type="button"  (click)="filtrar()">
-      Filtrar
-   </button>
-     <button  class="btn btn-danger" type="button" style="margin-left:10px" (click)="preguntaBorrar()">
-      <i class="far fa-trash-alt"></i>
-   </button>
-
-   
-    </div>
+<!-- <button  class="btn btn-outline-light" style ="margin-right: 10px; "type="button"  data-bs-toggle="collapse" data-bs-target="#config" aria-expanded="false" aria-controls="config">
+  Config
+</button> -->
 
 
-    
-</div> -->
-
-
-<!-- 
 <div class="collapse row checks pad20" id="config">
   
   <div class="col-12 col-md-4 ">
-    <h1>Impresoras </h1>
+    <h1 class="subtitulo">Impresoras </h1>
     <div *ngFor="let imp of params.impresoras" class="pointer check" (click)="selectImpresora(imp)">
          <div [className]="imp.checked ? 'selected animated fadeIn ' : 'dispo animated fadeIn '">
            <p><i [className]="imp.checked ? 'far fa-check-square animated fadeIn' : 'far fa-square animated fadeIn'"></i> {{imp.DESCRIPCIO | titlecase}}
@@ -56,7 +35,7 @@ d
   </div>
   
   <div class="col-12 col-md-4 seccion">
-    <h1>Tipo de Comanda </h1>
+    <h1 class="subtitulo">Tipo de Comanda </h1>
     <div *ngFor="let t of params.tiposComanda" class="pointer check" (click)="selectTipo(t)">
          <div [className]="t.checked ? 'selected animated fadeIn ' : 'dispo animated fadeIn '">
            <p><i [className]="t.checked ? 'far fa-check-square animated fadeIn' : 'far fa-square animated fadeIn'"></i> {{t.descripcion | titlecase}}
@@ -66,16 +45,16 @@ d
   </div>
   
   <div class="col-12 col-md-4 ">
-    <h1>Estados </h1>
+    <h1 class="subtitulo">Estados </h1>
     <div *ngFor="let e of params.estados" class="pointer check" (click)="selectEstado(e)">
          <div [className]="e.checked ? 'selected animated fadeIn ' : 'dispo animated fadeIn '">
            <p><i [className]="e.checked ? 'far fa-check-square animated fadeIn' : 'far fa-square animated fadeIn'"></i> {{e.descripcion | titlecase}}
 
           
           
-            <img *ngIf="e.codigo == 1" src="./assets/images/wait.svg" class="icono2">
-            <img *ngIf="e.codigo == 2" src="./assets/images/cooking2.svg" class="icono2">
-            <img *ngIf="e.codigo == 3" src="./assets/images/salon.svg"  class="icono2">
+            <img *ngIf="e.codigo == 1" src="./assets/images/wait.svg" class="icono">
+            <img *ngIf="e.codigo == 2" src="./assets/images/cooking.svg" class="icono">
+            <img *ngIf="e.codigo == 3" src="./assets/images/salon.svg"  class="icono">
             <i *ngIf="e.codigo == 4" class="fas fa-thumbs-up text-ligth"></i>
             <i *ngIf="e.codigo == 5" class="fas fa-times text-danger" ></i>
 
@@ -84,7 +63,9 @@ d
      </div>
   </div>
 
-</div> -->
+</div>
+
+
 
 
 <div class="row fondo pad20">

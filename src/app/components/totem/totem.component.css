@@ -4,6 +4,15 @@
     color:white;
 }
 
+.subtitulo{
+    font-weight: 700;
+    font-size:1.2em;
+}
+
+.checks{
+    background-color: white;
+}
+
 .header h1{
     font-size: 4em;
     font-weight: 700;
