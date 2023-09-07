@@ -88,8 +88,10 @@ export class TotemComponent implements OnInit {
               localStorage.setItem('paramsComandera', JSON.stringify(this.params));
               this.loading = false;
 
+              this.filtrar();
 
-              this.checkTodo();
+
+              // this.checkTodo();
 
               // this.tiempo = this.ciclo.subscribe( (n) => {
               //   this.filtrar();
@@ -383,7 +385,10 @@ return minutos
 
 }
 
-
+guardarFiltros(){
+  console.log('params', this.params);
+  this.filtrar();
+}
 
 // ======================================================== //
   // ======================================================== //
