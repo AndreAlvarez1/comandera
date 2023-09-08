@@ -88,9 +88,11 @@ export class TotemComponent implements OnInit {
               localStorage.setItem('paramsComandera', JSON.stringify(this.params));
               this.loading = false;
 
-              this.filtrar();
+              // this.filtrar();
 
-
+              this.tiempo = this.ciclo.subscribe( (n) => {
+                this.filtrar();
+            });
               // this.checkTodo();
 
               // this.tiempo = this.ciclo.subscribe( (n) => {
