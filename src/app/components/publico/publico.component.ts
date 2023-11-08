@@ -187,7 +187,7 @@ export class PublicoComponent implements OnInit {
  
     console.log('ok, traigo datos', this.params);
    
-    localStorage.setItem('paramsComandera', JSON.stringify(this.params));
+    // localStorage.setItem('paramsComandera', JSON.stringify(this.params));
  
  
      for (let imp of this.params.impresoras){
@@ -216,6 +216,12 @@ export class PublicoComponent implements OnInit {
  
      console.log('codigos ', codigos);
  
+
+     for( let e of this.params.estados){
+      e.checked = true;
+     }
+
+     console.log('params', this.params)
      this.getComandas(codigos);
    }
 
