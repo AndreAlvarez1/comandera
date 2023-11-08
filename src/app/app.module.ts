@@ -12,6 +12,7 @@ import { PrincipalComponent } from './components/principal/principal.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavComponent } from './shared/nav/nav.component';
 import { TotemComponent } from './components/totem/totem.component';
+import { PublicoComponent } from './components/publico/publico.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TotemComponent } from './components/totem/totem.component';
     PrincipalComponent,
     LoginComponent,
     TotemComponent,
-    NavComponent
+    NavComponent,
+    PublicoComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,121 @@
+.header {
+    padding:20px;
+    background-color: #4479b8;
+    color:white;
+}
+
+.subtitulo{
+    font-weight: 700;
+    font-size:1.2em;
+}
+
+.checks{
+    background-color: white;
+}
+
+.header h1{
+    font-size: 4em;
+    font-weight: 700;
+}
+
+.header h2{
+    font-size: 1.5em;
+}
+
+
+.listos{
+    height: 100vh;
+    overflow: hidden;
+    border-right: 4px solid white;
+
+}
+
+.pendientes{
+    height: 100vh;
+    overflow: scroll;
+}
+
+
+.fondo{
+    background-image: url(src/assets/images/inflicted.png);
+}
+
+
+.card{
+    margin-bottom:20px
+
+}
+
+.card-header{
+    padding:40px 0px 20px;
+}
+
+.card-header p{
+    margin-bottom: -20px;
+    color:white;
+}
+
+.card-header h1{
+    font-size: 7em;
+    font-weight: 700;
+    color:white;
+    margin-bottom:-10px;
+}
+
+.card-header h2{
+    font-size: 0.8em;
+    font-weight: 700;
+    color:white;
+}
+
+/* .estado {
+    background-color: white;
+    color:white;
+    border-radius: 10px;
+    padding:15px;
+} */
+
+.estado h2 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1em;
+    color:white;
+
+    /* color: #616366; */
+}
+
+.icono{
+    color:red;
+}
+
+
+
+/* CARDBODY */
+.card-body{
+    /* max-height: 200px; */
+    height: 200px;
+    overflow: auto; 
+}
+
+
+.card-body h3{
+  font-size:1.2em;
+  font-weight: 700;
+  margin-bottom: 0;  
+}
+
+.card-body p{
+  font-size:0.7em;
+  margin-bottom: 0; 
+
+}
+
+hr{
+margin:0
+}
+
+.icono{
+    width:25px;
+    height: 25px;
+  }
+  
