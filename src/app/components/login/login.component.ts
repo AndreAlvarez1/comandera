@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { paramsModel } from 'src/app/models/params.models';
 import { ConectorService } from 'src/app/services/conector.service';
 import Swal from 'sweetalert2';
+import versionApp from 'src/assets/js/version.json';
 
 
 @Component({
@@ -25,10 +26,14 @@ export class LoginComponent implements OnInit {
   // elem;
   // version;
   params: paramsModel = new paramsModel();
+  version = '0.0.0';
 
 
   constructor(private conex:ConectorService,
               private router: Router) { 
+                this.version = versionApp.version; // valido en que versión estoy
+
+
                 if (localStorage.getItem('paramsComandera')){
                   this.params = JSON.parse(localStorage.getItem('paramsComandera') || '{}');
                   this.getUsuarios();

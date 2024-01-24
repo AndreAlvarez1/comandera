@@ -4,6 +4,7 @@ import { interval } from 'rxjs';
 import { paramsModel } from 'src/app/models/params.models';
 import { ConectorService } from 'src/app/services/conector.service';
 import Swal from 'sweetalert2';
+import versionApp from 'src/assets/js/version.json';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class PrincipalComponent implements OnInit {
 
   constructor(private conex:ConectorService,
               private router: Router) {
+    
 
     if (localStorage.getItem('paramsComandera')){
       this.params = JSON.parse(localStorage.getItem('paramsComandera') || '{}');
@@ -346,14 +348,17 @@ export class PrincipalComponent implements OnInit {
 
 
 calcularTiempos(fecha:string, hora:any){
+ console.log('fecha', fecha);
+ console.log('hora', hora);
 
+ 
  let minutos = 0;
  let endTime = new Date().toLocaleTimeString().toString();
 
  let hora1 = (endTime).split(":")
  let hora2 = (hora).split(":");
- let t1 = new Date();
- let t2 = new Date();
+ let t1    = new Date();
+ let t2    = new Date();
  
  t1.setHours(Number(hora1[0]), Number(hora1[1]), Number(hora1[2]));
  t2.setHours(Number(hora2[0]), Number(hora2[1]), Number(hora2[2]));

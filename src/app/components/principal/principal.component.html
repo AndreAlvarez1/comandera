@@ -130,6 +130,7 @@
                             </h1>
       
                             <h5>Mesa: <span class="mesa"> {{c.detalle[0].MESA}} </span> - Comanda: {{c.detalle[0].NUMERO | slice:-3 }} </h5>
+                            <p class="text-light">Origen: {{c.detalle[0].TIPOVENTA}}</p>
                         </div>
                         <div class="col-3 iconoHead">
                           <img *ngIf="c.detalle[0].ESTADO == 1" src="./assets/images/wait_w.svg" width="70%" class="animated tada infinite">
