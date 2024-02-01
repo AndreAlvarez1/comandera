@@ -55,4 +55,43 @@ export class ConectorService {
     audio.play();
   }
 
+
+  formatearFechaYHora(fecha: Date): string {
+    const dia = this.agregarCero(fecha.getDate());
+    const mes = this.agregarCero(fecha.getMonth() + 1); // Los meses comienzan desde 0
+    const anio = fecha.getFullYear();
+
+    const horas = this.agregarCero(fecha.getHours());
+    const minutos = this.agregarCero(fecha.getMinutes());
+    const segundos = this.agregarCero(fecha.getSeconds());
+
+    return `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+  }
+
+  agregarCero(numero: number): string {
+    return numero < 10 ? `0${numero}` : `${numero}`;
+  }
+  
+
+  fechaSql(): string {
+    const fechaObjeto: Date = new Date();
+    
+    const year    = fechaObjeto.getFullYear();
+    const month   = fechaObjeto.getMonth() + 1;
+    const day     = fechaObjeto.getDate();
+    const hours   = fechaObjeto.getHours();
+    const minutes = fechaObjeto.getMinutes();
+    const seconds = fechaObjeto.getSeconds();
+
+    // Formatea la fecha en el formato 'YYYY-MM-DDTHH:mm:ss'
+    const fechaFormateada = `${year}-${this.pad(month)}-${this.pad(day)}T${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
+
+    return fechaFormateada;
+  }
+
+  private pad(num: number): string {
+    return num < 10 ? `0${num}` : num.toString();
+  }
+
+
 }

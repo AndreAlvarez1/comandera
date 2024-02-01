@@ -5,6 +5,8 @@ import { paramsModel } from 'src/app/models/params.models';
 import { ConectorService } from 'src/app/services/conector.service';
 import Swal from 'sweetalert2';
 import versionApp from 'src/assets/js/version.json';
+import { forkJoin } from 'rxjs';
+import { histokdsModel } from 'src/app/models/histokds.model';
 
 
 @Component({
@@ -83,13 +85,10 @@ export class PrincipalComponent implements OnInit {
                     if (this.params.impresoras[0].checked){
                       imp.checked = true;
                     }
-                 this.params.impresoras.push(imp);
-               
+                 this.params.impresoras.push(imp);     
                 } else {
                   // console.log('ya existe', existe);
                 }
-
-
               }
 
               console.log('gruposImpresion', this.params.impresoras);
@@ -347,11 +346,7 @@ export class PrincipalComponent implements OnInit {
   }
 
 
-calcularTiempos(fecha:string, hora:any){
- console.log('fecha', fecha);
- console.log('hora', hora);
-
- 
+calcularTiempos(fecha:string, hora:any){ 
  let minutos = 0;
  let endTime = new Date().toLocaleTimeString().toString();
 
@@ -362,20 +357,13 @@ calcularTiempos(fecha:string, hora:any){
  
  t1.setHours(Number(hora1[0]), Number(hora1[1]), Number(hora1[2]));
  t2.setHours(Number(hora2[0]), Number(hora2[1]), Number(hora2[2]));
- 
-//Aquí hago la resta
-t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
- 
-//Imprimo el resultado
-// let resultado = "La diferencia es de: " + (t1.getHours() ? t1.getHours() + (t1.getHours() > 1 ? " horas" : " hora") : "") + (t1.getMinutes() ? ", " + t1.getMinutes() + (t1.getMinutes() > 1 ? " minutos" : " minuto") : "") + (t1.getSeconds() ? (t1.getHours() || t1.getMinutes() ? " y " : "") + t1.getSeconds() + (t1.getSeconds() > 1 ? " segundos" : " segundo") : "");
-// console.log('resultado', resultado);
+ t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
  
 if (minutos < t1.getMinutes()){
   minutos = t1.getMinutes()
 }
 
 if (t1.getHours() >= 1){
-  // console.log('han pasado', t1.getHours(), 'horas')
   minutos = minutos + (t1.getHours() * 60)
 }
 
@@ -486,6 +474,7 @@ return minutos
                           } else if (this.cambio == false){
                             this.comparar(resp['datos']);
                           }
+
 
                       })
 
@@ -655,25 +644,107 @@ agregarNuevo(c:any, nuevo:any){
 //  =========================================================== //
 
 
+// for (let e of pedido.detalle){
+//   let newE = new histokdsModel();
+//   newE = {...e}
+//   console.log('newE', newE);
+// }
 
-  tomarPedido(pedido:any){
+
+  // tomarPedido(pedido:any){
+  //   console.log('tomar Pedido', pedido);
+  //   let contador = 0;
+
+
+  //   for ( let d of pedido.detalle){
+
+  //     d.ESTADO = Number(d.ESTADO) + 1;
+  //     d.tarea  = 'UPDATE';
+
+  //     if (d.ESTADO == 2){
+  //       d.PREPARANDO = this.conex.formatearFechaYHora(new Date());
+  //     }
+   
+  //     if (d.ESTADO == 3){
+  //       d.TERMINADA = this.conex.formatearFechaYHora(new Date());
+  //     }
+      
+  //     if (d.ESTADO == 4){
+  //       d.ENTREGADA = this.conex.formatearFechaYHora(new Date());
+  //     }
+
+  //     if (d.ESTADO > 4){
+  //       d.tarea = 'DELETE'
+  //     }
+
+
+  //     console.log('voy a guardar', d);
+
+  //     this.conex.guardarDato('/updatecomandera', d)
+  //                 .subscribe({
+  //                   next:(resp:any) => {
+  //                     console.log('guardé ok', resp);
+  //                   }, error:(err:any) => {
+  //                     console.log('error', err);
+  //                   }
+  //                 })
+  //     }
+
+  //     this.filtrar();
+
+  // }
+
+
+  tomarPedido(pedido: any) {
     console.log('tomar Pedido', pedido);
-    for ( let d of pedido.detalle){
+    let contador = 0;
+  
+    const observables = pedido.detalle.map( (d:any) => {
       d.ESTADO = Number(d.ESTADO) + 1;
       d.tarea = 'UPDATE';
-
-      if (d.ESTADO > 3){
-        d.tarea = 'DELETE'
+  
+      if (d.ESTADO == 2) {
+        d.PREPARANDO = this.conex.formatearFechaYHora(new Date());
       }
-      this.conex.guardarDato('/updatecomandera', d)
-                  .subscribe( resp => { 
-                    console.log('actualizdo', resp);
-                    this.filtrar();
-
-                  })
+  
+      if (d.ESTADO == 3) {
+        d.TERMINADA = this.conex.formatearFechaYHora(new Date());
       }
+  
+      if (d.ESTADO == 4) {
+        d.ENTREGADA = this.conex.formatearFechaYHora(new Date());
+      }
+  
+      if (d.ESTADO > 4) {
+        d.tarea = 'DELETE';
+      }
+  
+      console.log('voy a guardar', d);
+  
+      return this.conex.guardarDato('/updatecomandera', d);
+    });
+  
+    // Utilizar forkJoin para combinar múltiples observables y esperar a que todos se completen
+    forkJoin(observables)
+      .subscribe({
+        next: (resp: any) => {
+          console.log('guardé ok', resp);
+          // Llamar a filtrar después de que todas las actualizaciones se completen
+          this.filtrar();
+        },
+        error: (err: any) => {
+          console.log('error', err);
+        }
+      });
   }
 
+
+
+// estado 1 = 'por tomar' // PORTOMAR
+// estado 2 = 'preparando' //PREPARANDO
+// estado 3 = 'Listo para entregar' // TERMINADA
+// estado 4 = 'Entregado' // ENTREGADA
+// estado 5 = 'Anulada' // Anulada
 
 
 

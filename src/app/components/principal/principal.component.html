@@ -72,8 +72,7 @@
          <div [className]="e.checked ? 'selected animated fadeIn ' : 'dispo animated fadeIn '">
            <p><i [className]="e.checked ? 'far fa-check-square animated fadeIn' : 'far fa-square animated fadeIn'"></i> {{e.descripcion | titlecase}}
 
-          
-          
+
             <img *ngIf="e.codigo == 1" src="./assets/images/wait.svg" class="icono2">
             <img *ngIf="e.codigo == 2" src="./assets/images/cooking.svg" class="icono2">
             <img *ngIf="e.codigo == 3" src="./assets/images/salon.svg"  class="icono2">
@@ -86,6 +85,7 @@
   </div>
 
 </div>
+
 
 
 <div class="row fondo pad20">
@@ -170,6 +170,7 @@
                           <button *ngIf="c.detalle[0].ESTADO == 1" class="btn btn-block w-100 btn-primary" (click)="tomarPedido(c)"> Tomar Pedido  <img src="./assets/images/cooking_w.svg" width="25px"> </button>
                           <button *ngIf="c.detalle[0].ESTADO == 2" class="btn btn-block w-100 btn-morado" (click)="tomarPedido(c)"> Sale <i class="fas fa-concierge-bell"></i> </button>
                           <button *ngIf="c.detalle[0].ESTADO == 3" class="btn btn-block w-100 btn-success" (click)="tomarPedido(c)">Entregar Pedido <i class="fas fa-thumbs-up"></i></button>
+                          <button *ngIf="c.detalle[0].ESTADO == 4" class="btn btn-block w-100 btn-danger" (click)="tomarPedido(c)">Remover <i class="fas fa-thumbs-up"></i></button>
                       </div>
                   </div>
                 </div>
