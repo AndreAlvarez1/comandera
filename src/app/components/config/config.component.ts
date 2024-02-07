@@ -89,6 +89,11 @@ export class ConfigComponent implements OnInit {
     
   }
 
+  borrarlocal(){
+    localStorage.removeItem('paramsComandera');
+    location.reload();
+  }
+
 // ==============================================================
 // ==============================================================
 // ==============================================================

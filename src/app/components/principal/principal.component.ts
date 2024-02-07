@@ -65,6 +65,11 @@ export class PrincipalComponent implements OnInit {
     this.params.config.autoAceptar = !this.params.config.autoAceptar;
     this.guardarParam('cerrar');
   }
+ 
+  autoEntregar(){
+    this.params.config.autoEntregar = !this.params.config.autoEntregar;
+    this.guardarParam('cerrar');
+  }
 
   getImpresoras(){
 
@@ -730,6 +735,10 @@ agregarNuevo(c:any, nuevo:any){
         next: (resp: any) => {
           console.log('guardé ok', resp);
           // Llamar a filtrar después de que todas las actualizaciones se completen
+
+          if (this.params.config.autoEntregar){
+            this.tomarPedidoAutomatico(pedido);
+          }
           this.filtrar();
         },
         error: (err: any) => {
@@ -745,6 +754,48 @@ agregarNuevo(c:any, nuevo:any){
 // estado 3 = 'Listo para entregar' // TERMINADA
 // estado 4 = 'Entregado' // ENTREGADA
 // estado 5 = 'Anulada' // Anulada
+
+
+tomarPedidoAutomatico(pedido: any) {
+  console.log('tomar Pedido automatico', pedido);
+  let contador = 0;
+
+  const observables = pedido.detalle.map( (d:any) => {
+    
+    d.tarea = 'UPDATE';
+
+    if(d.ESTADO != 3){
+      d.tarea = 'NO';
+      console.log('no actualizar', d);
+    }
+  
+    if (d.ESTADO == 3){
+      console.log('d estado 3',d)
+      d.ESTADO    = Number(d.ESTADO) + 1;
+      d.ENTREGADA = this.conex.formatearFechaYHora(new Date());
+    } 
+    
+    console.log('voy a guardar', d);
+    return this.conex.guardarDato('/updatecomandera', d);
+
+  });
+
+  // Utilizar forkJoin para combinar múltiples observables y esperar a que todos se completen
+  forkJoin(observables)
+    .subscribe({
+      next: (resp: any) => {
+        console.log('guardé ok automaticamente', resp);
+        // Llamar a filtrar después de que todas las actualizaciones se completen
+        this.filtrar();
+      },
+      error: (err: any) => {
+        console.log('error', err);
+      }
+    });
+}
+
+
+
 
 
 

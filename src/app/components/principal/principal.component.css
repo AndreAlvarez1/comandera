@@ -4,6 +4,11 @@
     color:white;
 }
 
+.lista{
+    cursor:pointer;
+}
+
+
 .header h1{
     font-size: 4em;
     font-weight: 700;
