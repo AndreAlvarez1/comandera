@@ -714,6 +714,10 @@ agregarNuevo(c:any, nuevo:any){
   
       if (d.ESTADO == 3) {
         d.TERMINADA = this.conex.formatearFechaYHora(new Date());
+        if (this.params.config.autoEntregar){
+          d.ENTREGADA = this.conex.formatearFechaYHora(new Date());
+          d.ESTADO = 4;
+        }
       }
   
       if (d.ESTADO == 4) {
@@ -737,9 +741,7 @@ agregarNuevo(c:any, nuevo:any){
           console.log('-------------------------------')
           // Llamar a filtrar después de que todas las actualizaciones se completen
 
-          if (this.params.config.autoEntregar){
-            this.tomarPedidoAutomatico(pedido);
-          }
+         
           this.filtrar();
         },
         error: (err: any) => {
@@ -757,48 +759,48 @@ agregarNuevo(c:any, nuevo:any){
 // estado 5 = 'Anulada' // Anulada
 
 
-tomarPedidoAutomatico(pedido: any) {
-  console.log('-------------------------------')
-  console.log('-------------------------------')
-  console.log('tomar Pedido automatico', pedido);
-  console.log('-------------------------------')
-  console.log('-------------------------------')
+// tomarPedidoAutomatico(pedido: any) {
+//   console.log('-------------------------------')
+//   console.log('-------------------------------')
+//   console.log('tomar Pedido automatico', pedido);
+//   console.log('-------------------------------')
+//   console.log('-------------------------------')
 
-  let contador = 0;
+//   let contador = 0;
 
-  const observables = pedido.detalle.map( (d:any) => {
+//   const observables = pedido.detalle.map( (d:any) => {
     
-    d.tarea = 'UPDATE';
+//     d.tarea = 'UPDATE';
 
-    if(d.ESTADO != 3){
-      d.tarea = 'NO';
-      console.log('no actualizar', d);
-    }
+//     if(d.ESTADO != 3){
+//       d.tarea = 'NO';
+//       console.log('no actualizar', d);
+//     }
   
-    if (d.ESTADO == 3){
-      console.log('d estado 3',d)
-      d.ESTADO    = Number(d.ESTADO) + 1;
-      d.ENTREGADA = this.conex.formatearFechaYHora(new Date());
-    } 
+//     if (d.ESTADO == 3){
+//       console.log('d estado 3',d)
+//       d.ESTADO    = Number(d.ESTADO) + 1;
+//       d.ENTREGADA = this.conex.formatearFechaYHora(new Date());
+//     } 
     
-    console.log('voy a guardar los nuevos', d);
-    return this.conex.guardarDato('/updatecomandera', d);
+//     console.log('voy a guardar los nuevos', d);
+//     return this.conex.guardarDato('/updatecomandera', d);
 
-  });
+//   });
 
-  // Utilizar forkJoin para combinar múltiples observables y esperar a que todos se completen
-  forkJoin(observables)
-    .subscribe({
-      next: (resp: any) => {
-        console.log('guardé ok automaticamente', resp);
-        // Llamar a filtrar después de que todas las actualizaciones se completen
-        this.filtrar();
-      },
-      error: (err: any) => {
-        console.log('error', err);
-      }
-    });
-}
+//   // Utilizar forkJoin para combinar múltiples observables y esperar a que todos se completen
+//   forkJoin(observables)
+//     .subscribe({
+//       next: (resp: any) => {
+//         console.log('guardé ok automaticamente', resp);
+//         // Llamar a filtrar después de que todas las actualizaciones se completen
+//         this.filtrar();
+//       },
+//       error: (err: any) => {
+//         console.log('error', err);
+//       }
+//     });
+// }
 
 
 
