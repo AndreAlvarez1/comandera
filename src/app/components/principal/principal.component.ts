@@ -734,6 +734,7 @@ agregarNuevo(c:any, nuevo:any){
       .subscribe({
         next: (resp: any) => {
           console.log('guardé ok', resp);
+          console.log('-------------------------------')
           // Llamar a filtrar después de que todas las actualizaciones se completen
 
           if (this.params.config.autoEntregar){
@@ -757,7 +758,12 @@ agregarNuevo(c:any, nuevo:any){
 
 
 tomarPedidoAutomatico(pedido: any) {
+  console.log('-------------------------------')
+  console.log('-------------------------------')
   console.log('tomar Pedido automatico', pedido);
+  console.log('-------------------------------')
+  console.log('-------------------------------')
+
   let contador = 0;
 
   const observables = pedido.detalle.map( (d:any) => {
@@ -775,7 +781,7 @@ tomarPedidoAutomatico(pedido: any) {
       d.ENTREGADA = this.conex.formatearFechaYHora(new Date());
     } 
     
-    console.log('voy a guardar', d);
+    console.log('voy a guardar los nuevos', d);
     return this.conex.guardarDato('/updatecomandera', d);
 
   });
