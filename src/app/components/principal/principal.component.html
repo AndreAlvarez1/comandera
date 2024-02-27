@@ -262,9 +262,25 @@
     <div class="row">
       <div class="col-12 detalles">
 
-        <div *ngFor="let det of comanda.detalle" class="col-12 detalle">
+        <div *ngFor="let det of orders" class="row detalle">
+
+          <div class="col-8 fila">
+            <p>{{det.CANTIDAD}} x {{det.NOMBRE}}</p>
+            
+            <div *ngIf="det.modifs.length > 0" class="row">
+              <div class="col-12">
+                <h5 *ngFor="let m of det.modifs">{{m.CANTIDAD}} x {{m.NOMBRE}}</h5>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4 fila">
+            <button *ngIf="det.ESTADO == 1" class="btn btn-primary " style="margin-top:10px" (click)="tomarItem(comanda, det)">Tomar Item <img src="./assets/images/cooking_w.svg" width="25px"> </button>
+            <button *ngIf="det.ESTADO == 2" class="btn btn-morado" style="margin-top:10px" (click)="tomarItem(comanda, det)">Sale <i class="fas fa-concierge-bell"></i></button>
+            <button *ngIf="det.ESTADO == 3" class="btn btn-success" style="margin-top:10px" (click)="tomarItem(comanda, det)">Entregar Pedido <i class="fas fa-thumbs-up"></i></button>
+          </div>
           
-          <div *ngIf="!det.MENSAJE" class="">
+          <!-- <div *ngIf="!det.MENSAJE" class="col-10">
             <p>{{det.CANTIDAD}} x {{det.NOMBRE}}
               <img *ngIf="det.ESTADO == 1" src="./assets/images/wait.svg" class="icono">
               <img *ngIf="det.ESTADO == 2" src="./assets/images/cooking.svg" class="icono">
@@ -273,9 +289,13 @@
               <i *ngIf="det.ESTADO == 5" class="fas fa-times fa-2x text-danger" ></i>
             </p>
             <h4><i class="fas fa-print"></i> {{det.NOMGRUPOIM}}</h4>
+            <h5 *ngIf="det.MENSAJE" > -> {{det.NOMBRE | titlecase}}</h5>
           </div>
+
+          <div *ngIf="!det.isModif" class="col-2">
+            <p>BOTN ACA</p>
+          </div> -->
           
-          <h5 *ngIf="det.MENSAJE" > -> {{det.NOMBRE | titlecase}}</h5>
           
         </div>
 

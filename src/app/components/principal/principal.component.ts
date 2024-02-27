@@ -23,8 +23,9 @@ export class PrincipalComponent implements OnInit {
   modalComanda                = false;
   modalTiempos                = false;
  
-  comandasAll:any[]           = []
-  comandas:any[]              = []
+  comandasAll:any[]           = []; 
+  comandas:any[]              = [];
+  orders:any[]                = [];
   comanda:any                 = { 
                                   id: 0,
                                   detalle: [],
@@ -626,10 +627,39 @@ agregarNuevo(c:any, nuevo:any){
   verDetalle(c:any){
     console.log('ver detalle', c)
     this.modalComanda = true;
-    this.comanda = c;
+    this.comanda      = c;
+    this.orders       = [];
+
+    // PRIMERO ARMO LOS ITEMS PRINCIPALES
+    for (let det of this.comanda.detalle){
+      det.isModif = this.evaluarModif(det);
+      if (!det.isModif){
+        det.modifs = [];
+        this.orders.push(det);
+      }
+    }
+ 
+    // LUEGO LOS MODIFICADORES
+    for (let det of this.comanda.detalle){
+      const esteNumel = Math.floor(det.NUMEL);
+      if (det.isModif){
+        const padre = this.orders.find( o => o.NUMEL == esteNumel);
+        padre.modifs.push(det);
+      }
+    }
+
+    console.log('orders', this.orders);
 
   }
 
+
+  evaluarModif(det:any){
+    if (Number.isInteger(det.NUMEL)){
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   compararTiempos(tiempo1: string, tiempo2: string): boolean {
     const t1 = new Date(`2000-01-01T${tiempo1}`);
@@ -647,57 +677,6 @@ agregarNuevo(c:any, nuevo:any){
 //  =========================================================== //
 //  =========================================================== //
 //  =========================================================== //
-
-
-// for (let e of pedido.detalle){
-//   let newE = new histokdsModel();
-//   newE = {...e}
-//   console.log('newE', newE);
-// }
-
-
-  // tomarPedido(pedido:any){
-  //   console.log('tomar Pedido', pedido);
-  //   let contador = 0;
-
-
-  //   for ( let d of pedido.detalle){
-
-  //     d.ESTADO = Number(d.ESTADO) + 1;
-  //     d.tarea  = 'UPDATE';
-
-  //     if (d.ESTADO == 2){
-  //       d.PREPARANDO = this.conex.formatearFechaYHora(new Date());
-  //     }
-   
-  //     if (d.ESTADO == 3){
-  //       d.TERMINADA = this.conex.formatearFechaYHora(new Date());
-  //     }
-      
-  //     if (d.ESTADO == 4){
-  //       d.ENTREGADA = this.conex.formatearFechaYHora(new Date());
-  //     }
-
-  //     if (d.ESTADO > 4){
-  //       d.tarea = 'DELETE'
-  //     }
-
-
-  //     console.log('voy a guardar', d);
-
-  //     this.conex.guardarDato('/updatecomandera', d)
-  //                 .subscribe({
-  //                   next:(resp:any) => {
-  //                     console.log('guardé ok', resp);
-  //                   }, error:(err:any) => {
-  //                     console.log('error', err);
-  //                   }
-  //                 })
-  //     }
-
-  //     this.filtrar();
-
-  // }
 
 
   tomarPedido(pedido: any) {
@@ -759,48 +738,29 @@ agregarNuevo(c:any, nuevo:any){
 // estado 5 = 'Anulada' // Anulada
 
 
-// tomarPedidoAutomatico(pedido: any) {
-//   console.log('-------------------------------')
-//   console.log('-------------------------------')
-//   console.log('tomar Pedido automatico', pedido);
-//   console.log('-------------------------------')
-//   console.log('-------------------------------')
-
-//   let contador = 0;
-
-//   const observables = pedido.detalle.map( (d:any) => {
-    
-//     d.tarea = 'UPDATE';
-
-//     if(d.ESTADO != 3){
-//       d.tarea = 'NO';
-//       console.log('no actualizar', d);
-//     }
+tomarItem(comanda:any, d:any){
+  console.log('tomar Item', d);
+  console.log('comanda', comanda);
   
-//     if (d.ESTADO == 3){
-//       console.log('d estado 3',d)
-//       d.ESTADO    = Number(d.ESTADO) + 1;
-//       d.ENTREGADA = this.conex.formatearFechaYHora(new Date());
-//     } 
-    
-//     console.log('voy a guardar los nuevos', d);
-//     return this.conex.guardarDato('/updatecomandera', d);
+  const newArray:any[] = [];
+  newArray.push(d);
 
-//   });
+  if (d.modifs.length > 0 ){
+    for (let m of d.modifs){
+      newArray.push(m)
+    }
+  }
 
-//   // Utilizar forkJoin para combinar múltiples observables y esperar a que todos se completen
-//   forkJoin(observables)
-//     .subscribe({
-//       next: (resp: any) => {
-//         console.log('guardé ok automaticamente', resp);
-//         // Llamar a filtrar después de que todas las actualizaciones se completen
-//         this.filtrar();
-//       },
-//       error: (err: any) => {
-//         console.log('error', err);
-//       }
-//     });
-// }
+
+  const pedido = {
+                  detalle: newArray
+                } 
+
+  
+  this.tomarPedido(pedido);
+
+
+}
 
 
 

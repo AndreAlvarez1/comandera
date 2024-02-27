@@ -215,17 +215,20 @@ margin:0
     overflow: auto;
     height: calc(100vh - 180px);
     border-bottom: 4px solid #2CEAA3;
+
 }
 
 /* .detalle {
     padding:20px;
 } */
 
-.detalle p{
-    border-top: 1px dotted rgba(0,0,0,0.8);
 
-    margin-top: 20px;
-    padding-top:20px;
+.fila{
+    border-top: 1px dotted rgba(0,0,0,0.8);
+    padding:10px;
+}
+
+.detalle p{
     margin-bottom: 0;
     font-size: 1.2em;
 }
