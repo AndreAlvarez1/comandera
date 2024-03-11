@@ -1,74 +1,4 @@
 
-.comandas-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Columnas automáticas con ancho mínimo de 200px */
-    grid-auto-rows: 10px; /* Altura de fila automática */
-    gap: 10px; /* Espacio entre las comandas */
-    grid-auto-flow: dense; /* Esto hará que las comandas se llenen automáticamente en los espacios vacíos */
-
-  }
-  
-  .comanda {
-    /* Estilo de las comandas */
-    background-color: white;
-
-    border-radius: 10px;
-  }
-
-.comandaHeader{
-    border-top-left-radius: 10px ;
-    border-top-right-radius: 10px ;
-    padding:10px;
-}
-
-
-.comandaHeader h1{
-    color:white;
-    font-size: 2em;
-    margin-bottom:0;
-    font-weight: 700;
-}
-
-.comandaHeader h5{
-    font-size: 0.8em;
-    color:white;
-    font-style: italic;
-    /* margin-bottom:10px; */
-}
-
-.card-footer h4{
-    margin-bottom:0;
-    color:white;
-    font-weight: 700;
-    font-size:1.3em;
-    padding-top:5px;
-}
-
-
-.comanda-body{
-    background-color: white;
-    padding:10px;
-
-    border-bottom-left-radius: 10px ;
-    border-bottom-right-radius: 10px ;
-}
-
-
-.comanda-body h3{
-  font-size:1.2em;
-  font-weight: 700;
-  margin-bottom: 0;  
-}
-
-.comanda-body p{
- color:red;
- font-weight: 700;
-  margin-bottom: 0; 
-}
-
-
-
-
 
 /* ------------------------------------- */
 /* ------------------------------------- */
@@ -186,7 +116,7 @@
 
 .card-body{
     /* max-height: 200px; */
-    height: 200px;
+    /* height: 200px; */
     overflow: auto; 
 }
 

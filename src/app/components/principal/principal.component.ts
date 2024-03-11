@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { paramsModel } from 'src/app/models/params.models';
 import { ConectorService } from 'src/app/services/conector.service';
-import Swal from 'sweetalert2';
-import versionApp from 'src/assets/js/version.json';
 import { forkJoin } from 'rxjs';
-import { histokdsModel } from 'src/app/models/histokds.model';
+import Swal from 'sweetalert2';
+
+
 
 
 @Component({
@@ -15,7 +15,7 @@ import { histokdsModel } from 'src/app/models/histokds.model';
   styleUrls: ['./principal.component.css']
 })
 export class PrincipalComponent implements OnInit {
-
+  
   loading                     = true;
   loadingComandas             = true;
 
@@ -35,7 +35,7 @@ export class PrincipalComponent implements OnInit {
 
   cambio                      = true;
   // ciclo                       = interval(10000);
-  ciclo                       = interval(10000);
+  ciclo                       = interval(100000);
   tiempo:any;
 
 
@@ -43,6 +43,7 @@ export class PrincipalComponent implements OnInit {
   constructor(private conex:ConectorService,
               private router: Router) {
     
+
 
     if (localStorage.getItem('paramsComandera')){
       this.params = JSON.parse(localStorage.getItem('paramsComandera') || '{}');
@@ -64,11 +65,13 @@ export class PrincipalComponent implements OnInit {
   ngOnInit(): void {
     this.getImpresoras();
 
+
+    
+
   }
 
 
 
-  
 
 
   autoAceptar(){

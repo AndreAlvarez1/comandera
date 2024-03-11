@@ -14,6 +14,10 @@ import { NavComponent } from './shared/nav/nav.component';
 import { TotemComponent } from './components/totem/totem.component';
 import { PublicoComponent } from './components/publico/publico.component';
 
+import { NgxMasonryModule } from 'ngx-masonry';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +33,8 @@ import { PublicoComponent } from './components/publico/publico.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMasonryModule
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}

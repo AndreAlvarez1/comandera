@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "comandera:build:production"
+              "buildTarget": "comandera:build:production"
             },
             "development": {
-              "browserTarget": "comandera:build:development"
+              "buildTarget": "comandera:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "comandera:build"
+            "buildTarget": "comandera:build"
           }
         },
         "test": {

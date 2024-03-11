@@ -90,79 +90,11 @@
 
 
 
-
-
-
 <div class="row fondo pad20" style="margin:0">
   <div class="col-12">
 
-    <div class="masonry-grid">
-      <div class="masonry-sizer"></div> <!-- Elemento para definir el ancho de la columna -->
-      <div class="masonry-item" *ngFor="let comanda of comandas">
-        <p>{{ comanda.detalle[0].MESA }}</p>
-        <p>{{ comanda.detalle[0].NUMERO }}</p>
-      </div>
-    </div>
 
-
-    
-
-
-    <!-- <div class="comandas-grid">
-      <div class="comanda shadow" *ngFor="let c of comandas">
-
-        <div class="comandaHeader" [ngClass]="{'f_verde':c.minutos <= params.config.warning, 'f_amarillo': c.minutos > params.config.warning && c.minutos < params.config.danger , 'f_rojo':c.minutos >= params.config.danger}"  (click)="verDetalle(c)">
-              <div class="row">
-                  <div class="col-9">
-                      <h1><i class="far fa-clock"></i> {{c.minutos}}
-                          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                          {{c.detalle.length}}
-                        </span>
-                      </h1>
-
-                      <h5>Mesa: <span class="mesa"> {{c.detalle[0].MESA}} </span> - Comanda: {{c.detalle[0].NUMERO | slice:-3 }} </h5>
-                      <p class="text-light">Origen: {{c.detalle[0].TIPOVENTA}}</p>
-                  </div>
-                  <div class="col-3 iconoHead">
-                    <img *ngIf="c.detalle[0].ESTADO == 1" src="./assets/images/wait_w.svg" width="70%" class="animated tada infinite">
-                    <img *ngIf="c.detalle[0].ESTADO == 2" src="./assets/images/cooking_w.svg" width="100%" class="animated pulse infinite">
-                    <i *ngIf="c.detalle[0].ESTADO == 3" class="fas fa-concierge-bell animated pulse infinite fa-2x "></i>
-                    <i *ngIf="c.detalle[0].ESTADO == 4" class="fas fa-thumbs-up fa-2x text-ligth"></i>
-                    <i *ngIf="c.detalle[0].ESTADO == 5" class="fas fa-times fa-2x text-ligth" ></i>
-                  </div>
-               </div>
-        </div>
-
-        <div class="comanda-body">
-              <div *ngFor="let d of c.detalle" class="prod">
-          <div *ngIf="!d.MENSAJE" class="">
-            <h3 >{{d.CANTIDAD}} x {{d.NOMBRE}} </h3>
-            <img *ngIf="d.ESTADO == 1" src="./assets/images/wait.svg" class="icono">
-            <img *ngIf="d.ESTADO == 2" src="./assets/images/cooking.svg" class="icono">
-            <i *ngIf="d.ESTADO == 3" class="fas fa-concierge-bell"></i>
-            <i *ngIf="d.ESTADO == 4" class="fas fa-thumbs-up  text-success"></i>
-            <i *ngIf="d.ESTADO == 5" class="fas fa-times  text-danger" ></i>
-        </div>
-          
-          <p *ngIf="d.MENSAJE" > -> {{d.NOMBRE}}</p>
-        </div>
-        </div>
-
-    
-
-      </div>
-    </div> -->
-
-
-
-
-
-  </div>
-
-   
-
-<!-- 
-      <div class="row">
+  <div class="row" >
 
         <div *ngFor="let c of comandas" class="col-12 col-md-4 col-lg-3">
             <div class="card shadow animated headShake">
@@ -219,11 +151,11 @@
                 </div>
               </div>
         </div>
-     </div> -->
+     </div>
 
 
 
-
+    </div>
 </div>
 
 
