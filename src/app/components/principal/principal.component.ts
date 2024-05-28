@@ -34,8 +34,8 @@ export class PrincipalComponent implements OnInit {
                                 }
 
   cambio                      = true;
-  // ciclo                       = interval(10000);
-  ciclo                       = interval(100000);
+  ciclo                       = interval(10000);
+  // ciclo                       = interval(100000);
   tiempo:any;
 
 
@@ -414,14 +414,18 @@ return minutos
                             console.log('this.cambio', this.cambio, this.comandas.length);
                             
                             for (let c of resp['datos']){
-                              
+                              console.log('this.comandas', this.comandas);
+
                               const existe = this.comandas.find( (com:any) => com.id === c.IDIMP);
                               
                               if (existe){
+                                console.log('existe', existe);
+
                                 existe.minutos = this.calcularTiempos(c.FECHA, c.HORAREAL);
 
                                 // console.log('existe ver si son productos diferentes', existe);    
                                 const repetido = existe.detalle.find( (det:any) => det.NUMEL === c.NUMEL);
+                                console.log('repetido', repetido);
                                 if (repetido){
                                   // console.log('ya existe ver si cambió', existe);
                                   // console.log('compara con', c); 
@@ -436,8 +440,17 @@ return minutos
                                 }
 
                               } else {
+                                console.log('no existe', existe);
+
                                 const mismaComanda = this.comandas.find( c2 => c2.comanda == c.NUMERO);
                                 if (mismaComanda){
+                                  console.log('misma comanda', mismaComanda);
+                                  
+                                  const repetido = mismaComanda.detalle.find( (det:any) => det.NUMEL === c.NUMEL);
+                                  if (repetido){
+                                    continue;
+                                  }
+
                                   if (this.compararTiempos(mismaComanda.ingreso, c.HORAREAL )){
                                     // console.log('menos de 10 segundos')
 
@@ -462,7 +475,7 @@ return minutos
                                     this.comandas.push(producto);
                                   }
                                 } else {
-                                  // console.log('NO LA ENCONTRÉ');
+                                  console.log('NO LA ENCONTRÉ');
                                   c.MENSAJE = !Number.isInteger(c.NUMEL);
                                   const producto =  { 
                                     id: c.IDIMP,
