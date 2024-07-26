@@ -364,30 +364,67 @@ export class PrincipalComponent implements OnInit {
   }
 
 
-calcularTiempos(fecha:string, hora:any){ 
- let minutos = 0;
- let endTime = new Date().toLocaleTimeString().toString();
+// calcularTiempos(fecha:string, hora:any){ 
+//  let minutos = 0;
+//  let endTime = new Date().toLocaleTimeString().toString();
+//   console.log('endTime', endTime);
 
- let hora1 = (endTime).split(":")
- let hora2 = (hora).split(":");
- let t1    = new Date();
- let t2    = new Date();
+//  let hora1 = (endTime).split(":")
+//  let hora2 = (hora).split(":");
+//  let t1    = new Date();
+//  let t2    = new Date();
  
- t1.setHours(Number(hora1[0]), Number(hora1[1]), Number(hora1[2]));
- t2.setHours(Number(hora2[0]), Number(hora2[1]), Number(hora2[2]));
- t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
+//  console.log('hora1', hora1)
+//  console.log('hora2', hora2)
+
+
+//  t1.setHours(Number(hora1[0]), Number(hora1[1]), Number(hora1[2]));
+//  t2.setHours(Number(hora2[0]), Number(hora2[1]), Number(hora2[2]));
+//  t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
  
-if (minutos < t1.getMinutes()){
-  minutos = t1.getMinutes()
+// if (minutos < t1.getMinutes()){
+//   minutos = t1.getMinutes()
+// }
+
+// if (t1.getHours() >= 1){
+//   minutos = minutos + (t1.getHours() * 60)
+// }
+
+// console.log('minutos', minutos);
+
+// return minutos
+
+// }
+
+
+ calcularTiempos(fecha:any, hora:any) {
+  // Parse the current time to 24-hour format
+  let endTime = new Date();
+  let horaActual = endTime.toLocaleTimeString('en-US', { hour12: false }).split(':');
+
+  let horaIngresada = hora.split(':');
+
+  let t1:any = new Date(endTime);
+  let t2:any = new Date(endTime);
+
+  // Set the current time to t1
+  t1.setHours(Number(horaActual[0]), Number(horaActual[1]), Number(horaActual[2]));
+
+  // Set the input time to t2
+  t2.setHours(Number(horaIngresada[0]), Number(horaIngresada[1]), Number(horaIngresada[2]));
+
+  // Calculate the difference in minutes
+  let diff = (t1 - t2) / 1000 / 60;
+  if (diff < 0) {
+    diff += 24 * 60; // handle cases where the time difference spans midnight
+  }
+
+  console.log('Minutos:', diff);
+
+  return Math.round(diff);
 }
 
-if (t1.getHours() >= 1){
-  minutos = minutos + (t1.getHours() * 60)
-}
 
-return minutos
-
-}
 
 
   // ======================================================== //
